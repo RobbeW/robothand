@@ -1,0 +1,259 @@
+<!doctype html>
+<!--
+  Project Robothand J1 - webplatform
+  Copyright (c) 2026 Robbe Wulgaert
+-->
+<html lang="nl-BE">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Robothand Platform</title>
+  <meta
+    name="description"
+    content="Webplatform voor Project Robothand J1 met WebSerial, live vingerdata, kalibratie, robothandvisualisatie en blad-steen-schaar."
+  />
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="%235200FF"/><text x="32" y="40" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="white">IW</text></svg>' />
+  <link rel="stylesheet" href="style.css" />
+  <script src="vendor/jspdf.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body class="app-page">
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Project Robothand J1</p>
+      <h1>Robothand Platform</h1>
+    </div>
+    <div class="header-actions">
+      <a class="secondary-button header-link" href="index.html">Startpagina</a>
+      <span id="connection-status" class="status-pill">Niet verbonden</span>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section id="compatibility-notice" class="notice hidden" aria-live="polite"></section>
+
+    <nav class="workflow-nav" aria-label="Projectstappen">
+      <a href="#setup" class="workflow-step is-active" data-step-link="setup">1. Bouw</a>
+      <a href="#connect" class="workflow-step" data-step-link="connect">2. Verbind</a>
+      <a href="#calibration" class="workflow-step" data-step-link="calibration">3. Kalibreer</a>
+      <a href="#live" class="workflow-step" data-step-link="live">4. Observeer</a>
+      <a href="#rps" class="workflow-step" data-step-link="rps">5. Speel</a>
+      <a href="#report" class="workflow-step" data-step-link="report">6. Besluit</a>
+    </nav>
+
+    <section id="setup" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Bouwen</p>
+        <h2>Controleer de opstelling</h2>
+      </div>
+      <div id="setup-checklist" class="checklist">
+        <label><input type="checkbox" /> Arduino UNO is aangesloten via USB.</label>
+        <label><input type="checkbox" /> De sensorhandschoen is verbonden met de analoge pinnen.</label>
+        <label><input type="checkbox" /> De vijf servomotoren zijn aangesloten en kunnen vrij bewegen.</label>
+        <label><input type="checkbox" /> De Arduino-code staat op het bord.</label>
+      </div>
+    </section>
+
+    <section id="connect" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Verbinden</p>
+        <h2>Arduino of demomodus</h2>
+      </div>
+      <div class="control-panel">
+        <div>
+          <p>
+            Verbind de Arduino via WebSerial. Zonder hardware kun je de demomodus gebruiken om de lesflow,
+            grafieken en rapportage te testen.
+          </p>
+          <div class="toolbar">
+            <button id="btn-connect" class="primary-button" type="button">Verbind Arduino</button>
+            <button id="btn-demo" class="secondary-button" type="button">Start demomodus</button>
+          </div>
+        </div>
+        <div class="diagnostics-panel" aria-live="polite">
+          <h3>Diagnose</h3>
+          <p id="diagnostic-summary">Nog geen data ontvangen.</p>
+          <ul id="diagnostic-list">
+            <li>Verwachte seriele data: 22 kommagescheiden waarden.</li>
+          </ul>
+          <small id="serial-preview">Laatste regel: --</small>
+        </div>
+      </div>
+    </section>
+
+    <section id="calibration" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Kalibreren</p>
+        <h2>Leg open en gesloten hand vast</h2>
+      </div>
+      <div class="control-panel">
+        <div>
+          <p>
+            Laat de hand eerst volledig open, daarna volledig gesloten. De webapp gebruikt die waarden
+            om elke vinger duidelijker te visualiseren.
+          </p>
+          <div class="toolbar">
+            <button id="btn-capture-open" class="primary-button" type="button" disabled>Open hand vastleggen</button>
+            <button id="btn-capture-closed" class="primary-button" type="button" disabled>Gesloten hand vastleggen</button>
+            <button id="btn-reset-calibration" class="ghost-button" type="button">Kalibratie wissen</button>
+          </div>
+        </div>
+        <div class="calibration-values">
+          <span>Open: <strong id="open-calibration">--</strong></span>
+          <span>Gesloten: <strong id="closed-calibration">--</strong></span>
+          <span>Status: <strong id="calibration-status">Nog niet gekalibreerd</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="live" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Observeren</p>
+        <h2>Live robothand</h2>
+      </div>
+      <div class="live-layout">
+        <div class="hand-panel">
+          <div class="hand-visual" aria-label="Visuele robothand">
+            <svg id="hand-skeleton" class="hand-skeleton" viewBox="0 0 320 280" role="img" aria-label="Skeletweergave van de robothand">
+              <path class="palm-shape" d="M116 218 L112 152 Q112 132 132 132 L188 132 Q208 132 208 152 L204 218 Q202 242 178 248 L142 248 Q118 242 116 218 Z"></path>
+              <text class="palm-label" x="160" y="224" text-anchor="middle">Arduino</text>
+              <g id="skeleton-layer"></g>
+            </svg>
+          </div>
+        </div>
+        <div class="finger-panel">
+          <div id="finger-metrics" class="finger-metrics"></div>
+          <canvas id="finger-chart" width="900" height="320" aria-label="Live grafiek van vingerwaarden"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="data" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Data</p>
+        <h2>Recente metingen</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>t</th>
+              <th>Duim</th>
+              <th>Wijs</th>
+              <th>Midden</th>
+              <th>Ring</th>
+              <th>Pink</th>
+              <th>Gebaar</th>
+            </tr>
+          </thead>
+          <tbody id="sample-body">
+            <tr><td colspan="7">Nog geen data.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="rps" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Blad-steen-schaar</p>
+        <h2>Gebaren herkennen</h2>
+      </div>
+      <div class="game-layout">
+        <div class="game-card">
+          <label>
+            Ronde duurtijd
+            <input id="round-interval" type="number" min="2" max="15" step="1" value="5" />
+          </label>
+          <label>
+            Tegenstander
+            <select id="opponent-gesture">
+              <option value="random">Willekeurig</option>
+              <option value="1">Steen</option>
+              <option value="2">Blad</option>
+              <option value="3">Schaar</option>
+            </select>
+          </label>
+          <button id="btn-start-match" class="primary-button" type="button" disabled>Start match</button>
+        </div>
+        <div class="game-status">
+          <div>
+            <span>Countdown</span>
+            <strong id="rps-countdown">--</strong>
+          </div>
+          <div>
+            <span>Ronde</span>
+            <strong id="rps-round">--</strong>
+          </div>
+          <div>
+            <span>Jouw gebaar</span>
+            <strong id="player-gesture">--</strong>
+          </div>
+          <div>
+            <span>Tegenstander</span>
+            <strong id="opponent-gesture-label">--</strong>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ronde</th>
+              <th>Jij</th>
+              <th>Tegenstander</th>
+              <th>Resultaat</th>
+            </tr>
+          </thead>
+          <tbody id="round-history-body">
+            <tr><td colspan="4">Nog geen ronde gespeeld.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="report" class="workflow-section">
+      <div class="section-heading">
+        <p class="eyebrow">Besluiten</p>
+        <h2>Rapport en reflectie</h2>
+      </div>
+      <div class="form-grid">
+        <label>
+          Wat werkte goed aan de robothand?
+          <textarea id="input-conclusion" rows="3" placeholder="De hand reageerde het best wanneer ..."></textarea>
+        </label>
+        <label>
+          Wat zou je aanpassen?
+          <textarea id="input-reflection" rows="3" placeholder="Ik zou de sensoren, code of mechaniek aanpassen door ..."></textarea>
+        </label>
+      </div>
+      <div class="table-actions report-actions">
+        <button id="btn-report" class="primary-button" type="button" disabled>Genereer PDF</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="report-modal" class="report-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+    <form id="report-form" class="report-modal">
+      <button id="btn-cancel-report" class="close-button" type="button" aria-label="Sluit rapportvenster">x</button>
+      <p class="eyebrow">Rapport</p>
+      <h2 id="report-modal-title">Wie maakt dit rapport?</h2>
+      <label>
+        Naam of namen
+        <input id="report-names" type="text" placeholder="Bijv. Noor, Adam en Lina" required />
+      </label>
+      <label>
+        Klas
+        <input id="report-class" type="text" placeholder="Bijv. 1IW A" required />
+      </label>
+      <div class="modal-actions">
+        <button class="secondary-button" id="btn-report-back" type="button">Annuleer</button>
+        <button class="primary-button" type="submit">Genereer PDF</button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="app-footer">
+    <p>Auteur: Robbe Wulgaert · AI in de Klas · robbewulgaert.be · © 2026 Robbe Wulgaert. Alle rechten voorbehouden.</p>
+  </footer>
+</body>
+</html>

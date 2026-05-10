@@ -1,0 +1,270 @@
+<!doctype html>
+<!--
+  Project Robothand J1
+  Copyright (c) 2026 Robbe Wulgaert
+-->
+<html lang="nl-BE">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Robothand J1</title>
+  <meta
+    name="description"
+    content="Project Robothand J1 is een klasproject waarin leerlingen met Arduino, sensoren en servomotoren onderzoeken hoe een robothand menselijke beweging kan nabootsen."
+  />
+  <meta name="author" content="Robbe Wulgaert, AI in de Klas, robbewulgaert.be" />
+  <meta name="copyright" content="Copyright (c) 2026 Robbe Wulgaert" />
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="%235200FF"/><text x="32" y="40" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="white">IW</text></svg>' />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="landing-page">
+  <a class="skip-link" href="#main">Spring naar inhoud</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Hoofdnavigatie">
+      <a class="brand-link" href="#top" aria-label="Project Robothand J1">
+        <span class="brand-mark">IW</span>
+        <span class="brand-copy">
+          <span class="brand-title">Project Robothand J1</span>
+          <span class="brand-subtitle">AI in de Klas · Robbe Wulgaert</span>
+        </span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#werking">Werking</a>
+        <a href="#leren">Wat leer je?</a>
+        <a href="#klas">Voor leerkrachten</a>
+        <a href="#benodigdheden">Benodigdheden</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+
+      <div class="nav-actions">
+        <a class="btn btn-primary btn-small" href="platform.html">Start platform</a>
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="navLinks">
+          Menu
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="landing-hero" id="top" aria-label="Project Robothand J1">
+      <div class="hero-content">
+        <p class="section-kicker">Project Robothand J1</p>
+        <h1>Bouw een robothand die menselijke beweging nabootst.</h1>
+        <p class="hero-lead">
+          Leerlingen bouwen een sensorhandschoen, sturen servomotoren aan met Arduino en ontdekken
+          hoe beweging wordt omgezet naar data, code en mechanische actie.
+        </p>
+        <div class="hero-actions" aria-label="Belangrijke acties">
+          <a class="btn btn-primary" href="platform.html">Start platform</a>
+          <a class="btn btn-secondary" href="#werking">Bekijk de opdracht</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section landing-intro" id="werking">
+      <p class="section-kicker">Hoe werkt het?</p>
+      <h2 class="section-title">Van vingerbuiging naar robotbeweging.</h2>
+      <p class="section-lead">
+        Leerlingen bouwen een eenvoudige sensorhandschoen en koppelen die aan een robothand. De Arduino
+        leest vingerbewegingen, stuurt servomotoren aan en maakt zichtbaar hoe data een fysieke beweging
+        kan veroorzaken.
+      </p>
+
+      <div class="steps">
+        <article class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="card-title">Bouw</h3>
+          <p class="card-copy">
+            Leerlingen maken een handschoen met sensoren en koppelen die aan een Arduino en vijf servo's.
+          </p>
+        </article>
+        <article class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="card-title">Kalibreer</h3>
+          <p class="card-copy">
+            Ruwe sensorwaarden worden omgezet naar bruikbare vingerposities: van gestrekt tot gebogen.
+          </p>
+        </article>
+        <article class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="card-title">Bestuur</h3>
+          <p class="card-copy">
+            De Arduino vertaalt metingen naar servohoeken, zodat de robothand de menselijke hand volgt.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section media-section" aria-label="Projectopstelling">
+      <div class="split">
+        <article class="audience-card">
+          <p class="section-kicker">De opstelling</p>
+          <h2 class="section-title">Van handschoen naar robothand.</h2>
+          <p class="section-lead">
+            Een vinger buigt, de sensorwaarde verandert en de Arduino stuurt een servo aan. Zo zien
+            leerlingen meteen of hun code, bedrading en mechaniek goed samenwerken.
+          </p>
+          <ul class="bullet-list">
+            <li>Flexsensoren meten hoeveel vingers buigen.</li>
+            <li>Arduino verwerkt de metingen en stuurt servomotoren aan.</li>
+            <li>De browser toont live wat de Arduino doorstuurt.</li>
+          </ul>
+        </article>
+
+        <figure class="photo-frame">
+          <img src="../media/landing_page_photo.jpg" alt="Robothand projectopstelling met mechanische hand" />
+          <figcaption>Projectfoto van de robothand als fysiek onderzoeksobject.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="leren">
+      <p class="section-kicker">Wat leer je?</p>
+      <h2 class="section-title">Wat oefenen leerlingen in dit project?</h2>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">01</div>
+          <h3 class="card-title">Sensoren lezen</h3>
+          <p class="card-copy">
+            Ze lezen vingerwaarden uit en controleren of die waarden kloppen met wat ze zien.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">02</div>
+          <h3 class="card-title">Actuatoren sturen</h3>
+          <p class="card-copy">
+            Ze sturen servo's aan en zien meteen wat een kleine wijziging in de code doet.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">03</div>
+          <h3 class="card-title">Data verwerken</h3>
+          <p class="card-copy">
+            Ze volgen de waarden per vinger en gebruiken die om de opstelling bij te sturen.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">04</div>
+          <h3 class="card-title">Patronen herkennen</h3>
+          <p class="card-copy">
+            Ze testen of de robothand eenvoudige gebaren zoals blad, steen en schaar herkent.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="klas">
+      <article class="audience-card">
+        <p class="section-kicker">Voor leerkrachten</p>
+        <h2 class="section-title">Een syntheseproject na Arduino.</h2>
+        <p class="section-lead">
+          Dit project hoort aan het einde van een traject waarin leerlingen al met Arduino gewerkt hebben.
+          Ze brengen hun voorkennis samen in een groter systeem: sensoren uitlezen, servo's aansturen,
+          testen, bijsturen en uitleggen waarom de robothand wel of niet goed reageert.
+        </p>
+        <ul class="bullet-list">
+          <li>Voor leerlingen die Arduino, variabelen, pinnen en seriele data al kennen.</li>
+          <li>Combineert elektronica, code en mechaniek in één werkend geheel.</li>
+          <li>Geeft zinvolle testvragen: welke sensorpositie werkt betrouwbaar, hoe snel reageert de servo, welk gebaar wordt herkend?</li>
+          <li>Werkt goed in duo's of kleine groepjes, met één robothand als klasopstelling.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="benodigdheden">
+      <p class="section-kicker">Benodigdheden</p>
+      <h2 class="section-title">Wat heb je nodig in de klas?</h2>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">01</div>
+          <h3 class="card-title">Arduino</h3>
+          <p class="card-copy">Een Arduino UNO of vergelijkbaar bord dat via USB met de computer verbindt.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">02</div>
+          <h3 class="card-title">Sensorhandschoen</h3>
+          <p class="card-copy">Flexsensoren of vergelijkbare sensoren om vingerbuiging meetbaar te maken.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">03</div>
+          <h3 class="card-title">Servomotoren</h3>
+          <p class="card-copy">Vijf servo's die de vingers van de robothand kunnen bewegen.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">04</div>
+          <h3 class="card-title">Browser</h3>
+          <p class="card-copy">Chrome of Edge voor WebSerial. Zonder hardware kan de demomodus gebruikt worden.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="privacy">
+      <p class="section-kicker">Privacy</p>
+      <h2 class="section-title">Geen accounts, geen serveropslag.</h2>
+      <div class="privacy-grid">
+        <article class="feature-card">
+          <h3 class="card-title">Privacyvriendelijk</h3>
+          <p class="card-copy">
+            De webomgeving draait als gewone website. Data blijft lokaal in de browser en leerlingen
+            werken zonder account.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Volgende stap">
+      <div class="cta-band">
+        <div>
+          <h2>Open het robothandplatform.</h2>
+          <p>
+            Verbind de Arduino, test de demomodus of gebruik de visualisatie om sensorwaarden en beweging te bespreken.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="platform.html">Start platform</a>
+          <a class="btn btn-secondary" href="#klas">Voor leerkrachten</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-title">Project Robothand J1</div>
+        <p>
+          Auteur: Robbe Wulgaert · AI in de Klas · robbewulgaert.be<br />
+          © 2026 Robbe Wulgaert. Alle rechten voorbehouden.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Footerlinks">
+        <a href="https://www.robbewulgaert.be">robbewulgaert.be</a>
+        <a href="https://www.aiindeklas.be">AI in de Klas</a>
+        <a href="platform.html">Platform</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    menuButton?.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("is-open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks?.addEventListener("click", (event) => {
+      if (event.target instanceof HTMLAnchorElement) {
+        navLinks.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
+    });
+  </script>
+</body>
+</html>
