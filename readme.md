@@ -65,7 +65,7 @@ De huidige Arduino-code stuurt CSV-regels naar de browser op 9600 baud. De webve
 Meer detail staat in:
 
 ```text
-Website/docs/protocol.md
+docs/protocol.md
 ```
 
 Kort samengevat:
@@ -77,6 +77,26 @@ Kort samengevat:
 
 Als er geen hardware beschikbaar is, kan de demomodus gebruikt worden om het lesverloop te tonen. Er is geen CSV-export in deze webversie. De lesoutput is het PDF-rapport.
 
+## Bestandsstructuur
+
+```text
+Project Robothand J1/
+|-- Arduino_Robotic_Hand/
+|   |-- Arduino_Robotic_Hand.ino
+|-- index.html                  landingspagina
+|-- platform.html               robothandplatform
+|-- style.css                   vormgeving
+|-- script.js                   WebSerial, kalibratie, visualisatie en rapportage
+|-- readme.md
+|-- media/
+|   |-- landing_page_photo.jpg
+|-- docs/
+|   |-- protocol.md
+|-- vendor/
+|   |-- jspdf.umd.min.js
+```
+
+De oorspronkelijke instructies en Excel-werkmap kunnen in de projectmap blijven als achtergrondmateriaal. Voor klasgebruik start je vanuit `index.html`.
 
 ## Privacy en opslag
 
@@ -84,7 +104,7 @@ De website gebruikt geen server en geen leerlingenaccounts. Namen, klas en meetg
 
 ## Voor publicatie op GitHub Pages
 
-Plaats de inhoud van de map `Website/` in de gepubliceerde map of branch. Controleer na publicatie:
+Publiceer de repo-root via GitHub Pages. Controleer na publicatie:
 
 - `index.html` opent als startpagina;
 - `platform.html` laadt zonder ontbrekende bestanden;
