@@ -77,27 +77,6 @@ Kort samengevat:
 
 Als er geen hardware beschikbaar is, kan de demomodus gebruikt worden om het lesverloop te tonen. Er is geen CSV-export in deze webversie. De lesoutput is het PDF-rapport.
 
-## Bestandsstructuur
-
-```text
-Project Robothand J1/
-|-- Arduino_Robotic_Hand/
-|   |-- Arduino_Robotic_Hand.ino
-|-- media/
-|   |-- landing_page_photo.jpg
-|-- Website/
-|   |-- index.html              landingspagina
-|   |-- platform.html           robothandplatform
-|   |-- style.css               vormgeving
-|   |-- script.js               WebSerial, kalibratie, visualisatie en rapportage
-|   |-- readme.md
-|   |-- docs/
-|   |   |-- protocol.md
-|   |-- vendor/
-|   |   |-- jspdf.umd.min.js
-```
-
-De oorspronkelijke instructies en Excel-werkmap kunnen in de projectmap blijven als achtergrondmateriaal. Voor klasgebruik start je vanuit `Website/index.html`.
 
 ## Privacy en opslag
 
