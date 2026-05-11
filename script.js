@@ -145,6 +145,7 @@ window.addEventListener("DOMContentLoaded", () => {
     els.btnStartMatch.addEventListener("click", startMatch);
     els.setupChecklist.addEventListener("change", updateWorkflowState);
     els.inputConclusion.addEventListener("input", updateWorkflowState);
+    window.addEventListener("resize", drawChart);
   }
 
   function updateCompatibilityNotice() {
@@ -576,7 +577,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const tip = points[points.length - 1];
       const label = group.querySelector(".skeleton-label");
       label.setAttribute("x", tip.x.toFixed(1));
-      label.setAttribute("y", (tip.y - 12).toFixed(1));
+      label.setAttribute("y", (tip.y < 34 ? tip.y + 18 : tip.y - 12).toFixed(1));
     });
   }
 
@@ -682,9 +683,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function drawChart() {
     const canvas = els.fingerChart;
-    const ctx = canvas.getContext("2d");
-    const width = canvas.width;
-    const height = canvas.height;
+    const { ctx, width, height } = prepareCanvas(canvas);
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, width, height);
@@ -724,6 +723,22 @@ window.addEventListener("DOMContentLoaded", () => {
       });
       ctx.stroke();
     });
+  }
+
+  function prepareCanvas(canvas) {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const width = Math.max(260, rect.width);
+    const height = Math.max(220, rect.height);
+    const targetWidth = Math.round(width * dpr);
+    const targetHeight = Math.round(height * dpr);
+    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+    }
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, width, height };
   }
 
   function openReportModal() {
