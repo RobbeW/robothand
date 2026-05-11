@@ -15,6 +15,7 @@ Leerlingen:
 
 - controleren of Arduino, sensoren, servo's en USB goed klaarstaan;
 - verbinden de Arduino met de browser;
+- kiezen welke vingers echt aangesloten zijn, zodat losse analoge pinnen niet meetellen;
 - leggen een open hand en een gesloten hand vast voor de kalibratie;
 - buigen hun vingers en bekijken de waarden per vinger;
 - vergelijken wat de sensoren meten met wat de robothand doet;
@@ -28,7 +29,7 @@ De opdracht herhaalt en verdiept:
 
 - analoge input via flexsensoren;
 - servo-aansturing;
-- kalibratie van ruwe meetwaarden naar bruikbare percentages;
+- kalibratie van aangesloten vingers naar bruikbare percentages;
 - seriële communicatie tussen Arduino en browser;
 - eenvoudige gebarenlogica;
 - foutzoeken in een fysieke opstelling;
@@ -41,12 +42,13 @@ De opdracht herhaalt en verdiept:
 3. Upload `Arduino_Robotic_Hand.ino` naar de Arduino.
 4. Controleer de bedrading en de voeding van de servo's.
 5. Verbind de Arduino met de browser of start de demomodus.
-6. Kalibreer een open hand.
-7. Kalibreer een gesloten hand.
-8. Observeer de vingerwaarden en de handvisualisatie.
-9. Test blad-steen-schaar.
-10. Vul observatie, besluit en reflectie in.
-11. Genereer het PDF-rapport.
+6. Kies welke vingers aangesloten zijn.
+7. Kalibreer een open hand.
+8. Kalibreer een gesloten hand.
+9. Observeer de vingerwaarden en de handvisualisatie.
+10. Test blad-steen-schaar wanneer wijsvinger, middenvinger en ringvinger aangesloten zijn.
+11. Vul observatie, besluit en reflectie in.
+12. Genereer het PDF-rapport.
 
 ## Benodigdheden
 
@@ -73,6 +75,7 @@ Kort samengevat:
 - Arduino naar browser: 22 CSV-velden met status, vingerwaarden, rondes en gebaren;
 - browser naar Arduino: 9 CSV-velden om blad-steen-schaar aan te sturen;
 - de vingerwaarden worden in de website gekalibreerd naar 0-100%;
+- niet-aangesloten vingers kunnen in de website uitgezet worden;
 - WebSerial werkt het best via GitHub Pages, HTTPS of `localhost`.
 
 Als er geen hardware beschikbaar is, kan de demomodus gebruikt worden om het lesverloop te tonen. Er is geen CSV-export in deze webversie. De lesoutput is het PDF-rapport.

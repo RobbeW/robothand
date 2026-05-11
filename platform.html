@@ -62,7 +62,7 @@
       <div class="control-panel">
         <div>
           <p>
-            Verbind de Arduino via WebSerial. Zonder hardware kun je de demomodus gebruiken om de lesflow,
+            Verbind de Arduino via WebSerial. Zonder hardware kun je de demomodus gebruiken om het lesverloop,
             grafieken en rapportage te testen.
           </p>
           <div class="toolbar">
@@ -113,6 +113,19 @@
       </div>
       <div class="live-layout">
         <div class="hand-panel">
+          <div class="connected-fingers-panel" aria-labelledby="connected-fingers-title">
+            <div class="connected-fingers-heading">
+              <div>
+                <h3 id="connected-fingers-title">Aangesloten vingers</h3>
+                <p>Kies welke flexsensoren echt aangesloten zijn. Losse analoge pinnen worden genegeerd.</p>
+              </div>
+              <div class="toolbar compact-toolbar">
+                <button id="btn-all-fingers" class="secondary-button" type="button">Alle vingers</button>
+                <button id="btn-index-only" class="ghost-button" type="button">Alleen wijsvinger</button>
+              </div>
+            </div>
+            <div id="finger-toggle-group" class="finger-toggle-group" role="group" aria-label="Aangesloten vingers"></div>
+          </div>
           <div class="hand-visual" aria-label="Visuele robothand">
             <svg id="hand-skeleton" class="hand-skeleton" viewBox="0 0 320 280" role="img" aria-label="Skeletweergave van de robothand">
               <path class="palm-shape" d="M116 218 L112 152 Q112 132 132 132 L188 132 Q208 132 208 152 L204 218 Q202 242 178 248 L142 248 Q118 242 116 218 Z"></path>
@@ -174,6 +187,7 @@
             </select>
           </label>
           <button id="btn-start-match" class="primary-button" type="button" disabled>Start match</button>
+          <p id="rps-finger-notice" class="inline-warning hidden">Voor blad-steen-schaar heb je minstens wijsvinger, middenvinger en ringvinger nodig.</p>
         </div>
         <div class="game-status">
           <div>

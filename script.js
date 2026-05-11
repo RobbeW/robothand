@@ -20,11 +20,11 @@ class LineBreakTransformer {
 window.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const FINGERS = [
-    { key: "thumb", label: "Duim", color: "#5200FF" },
-    { key: "index", label: "Wijs", color: "#00A3A3" },
-    { key: "middle", label: "Midden", color: "#FFB000" },
-    { key: "ring", label: "Ring", color: "#D0006F" },
-    { key: "pinky", label: "Pink", color: "#008060" },
+    { key: "thumb", label: "Duim", pin: "A0", color: "#5200FF" },
+    { key: "index", label: "Wijs", pin: "A1", color: "#00A3A3" },
+    { key: "middle", label: "Midden", pin: "A2", color: "#FFB000" },
+    { key: "ring", label: "Ring", pin: "A3", color: "#D0006F" },
+    { key: "pinky", label: "Pink", pin: "A4", color: "#008060" },
   ];
   const GESTURES = {
     "-1": "Geen geldig gebaar",
@@ -44,6 +44,9 @@ window.addEventListener("DOMContentLoaded", () => {
     diagnosticSummary: $("diagnostic-summary"),
     diagnosticList: $("diagnostic-list"),
     serialPreview: $("serial-preview"),
+    fingerToggleGroup: $("finger-toggle-group"),
+    btnAllFingers: $("btn-all-fingers"),
+    btnIndexOnly: $("btn-index-only"),
     btnConnect: $("btn-connect"),
     btnDemo: $("btn-demo"),
     btnCaptureOpen: $("btn-capture-open"),
@@ -57,6 +60,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnCancelReport: $("btn-cancel-report"),
     btnReportBack: $("btn-report-back"),
     btnStartMatch: $("btn-start-match"),
+    rpsFingerNotice: $("rps-finger-notice"),
     roundInterval: $("round-interval"),
     opponentGesture: $("opponent-gesture"),
     openCalibration: $("open-calibration"),
@@ -91,6 +95,7 @@ window.addEventListener("DOMContentLoaded", () => {
       open: null,
       closed: null,
     },
+    connectedFingers: FINGERS.map(() => true),
     droppedLines: 0,
     rpsHistory: [],
     lastOpponentGesture: 0,
@@ -99,6 +104,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initialize();
 
   function initialize() {
+    renderFingerToggles();
     renderFingerMetrics();
     renderHandSkeleton();
     updateCompatibilityNotice();
@@ -117,6 +123,9 @@ window.addEventListener("DOMContentLoaded", () => {
   function bindEvents() {
     els.btnConnect.addEventListener("click", connectSerial);
     els.btnDemo.addEventListener("click", toggleDemoMode);
+    els.fingerToggleGroup.addEventListener("change", handleFingerToggleChange);
+    els.btnAllFingers.addEventListener("click", () => setConnectedFingers(FINGERS.map((finger) => finger.key)));
+    els.btnIndexOnly.addEventListener("click", () => setConnectedFingers(["index"]));
     els.btnCaptureOpen.addEventListener("click", () => captureCalibration("open"));
     els.btnCaptureClosed.addEventListener("click", () => captureCalibration("closed"));
     els.btnResetCalibration.addEventListener("click", resetCalibration);
@@ -280,7 +289,7 @@ window.addEventListener("DOMContentLoaded", () => {
       rawLine,
       raw: packet.fingers,
       fingers: calibrated,
-      playerGesture: packet.playerGesture,
+      playerGesture: hasRpsFingers() ? packet.playerGesture : 0,
       opponentGesture: packet.opponentGesture,
       round: packet.round,
       countdown: packet.countdown,
@@ -288,12 +297,18 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyCalibration(values) {
-    if (!state.calibration.open || !state.calibration.closed) {
-      return values.map((value) => clamp(value, 0, 100));
-    }
     return values.map((value, index) => {
+      if (!isFingerConnected(index)) {
+        return null;
+      }
+      if (!state.calibration.open || !state.calibration.closed) {
+        return clamp(value, 0, 100);
+      }
       const open = state.calibration.open[index];
       const closed = state.calibration.closed[index];
+      if (!Number.isFinite(open) || !Number.isFinite(closed)) {
+        return clamp(value, 0, 100);
+      }
       const range = closed - open;
       if (Math.abs(range) < 2) {
         return clamp(value, 0, 100);
@@ -352,6 +367,9 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function inferGesture(values) {
+    if (!hasRpsFingers()) {
+      return 0;
+    }
     const index = values[1] > 55 ? "f" : "e";
     const middle = values[2] > 55 ? "f" : "e";
     const ring = values[3] > 55 ? "f" : "e";
@@ -367,8 +385,11 @@ window.addEventListener("DOMContentLoaded", () => {
       alert("Er is nog geen data om te kalibreren.");
       return;
     }
-    state.calibration[kind] = [...state.latestRaw.fingers];
+    state.calibration[kind] = state.latestRaw.fingers.map((value, index) => (
+      isFingerConnected(index) ? value : null
+    ));
     updateCalibrationDisplay();
+    refreshSamplesForFingerSelection();
     updateLiveUi(state.latestSample);
     updateWorkflowState();
   }
@@ -384,6 +405,10 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   async function startMatch() {
+    if (!hasRpsFingers()) {
+      alert("Voor blad-steen-schaar heb je minstens wijsvinger, middenvinger en ringvinger nodig.");
+      return;
+    }
     const roundInterval = clamp(Number(els.roundInterval.value) || 5, 2, 15);
     const opponent = chooseOpponentGesture();
     state.lastOpponentGesture = opponent;
@@ -439,6 +464,9 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function deriveRoundHistory(packet) {
+    if (!hasRpsFingers()) {
+      return [];
+    }
     const rows = [];
     for (let index = 0; index < 5; index += 1) {
       const player = Number(packet.playerRounds[index] || 0);
@@ -474,11 +502,17 @@ window.addEventListener("DOMContentLoaded", () => {
     FINGERS.forEach((finger, index) => {
       const value = sample.fingers[index];
       const raw = sample.raw[index];
+      const connected = isFingerConnected(index);
       const card = document.querySelector(`[data-finger-card="${finger.key}"]`);
       if (card) {
-        card.querySelector(".finger-value").textContent = `${value.toFixed(0)}%`;
-        card.querySelector(".finger-raw").textContent = `ruw ${raw.toFixed(0)}`;
-        card.querySelector(".finger-fill").style.width = `${value}%`;
+        card.classList.toggle("is-inactive", !connected);
+        card.querySelector(".finger-value").textContent = connected && Number.isFinite(value)
+          ? `${value.toFixed(0)}%`
+          : "niet aangesloten";
+        card.querySelector(".finger-raw").textContent = connected
+          ? `ruw ${raw.toFixed(0)}`
+          : "pin genegeerd";
+        card.querySelector(".finger-fill").style.width = connected && Number.isFinite(value) ? `${value}%` : "0%";
       }
     });
     updateHandSkeleton(sample.fingers);
@@ -487,21 +521,34 @@ window.addEventListener("DOMContentLoaded", () => {
   function updateRpsUi(packet) {
     els.rpsCountdown.textContent = packet.countdown ? String(packet.countdown) : "--";
     els.rpsRound.textContent = packet.round ? String(packet.round) : "--";
-    els.playerGesture.textContent = gestureLabel(packet.playerGesture);
+    els.playerGesture.textContent = hasRpsFingers() ? gestureLabel(packet.playerGesture) : "--";
     els.opponentGestureLabel.textContent = gestureLabel(packet.opponentGesture || state.lastOpponentGesture);
   }
 
+  function renderFingerToggles() {
+    els.fingerToggleGroup.innerHTML = FINGERS.map((finger, index) => `
+      <label class="finger-toggle" style="--toggle-color:${finger.color}">
+        <input type="checkbox" value="${finger.key}" data-finger-toggle="${finger.key}" ${isFingerConnected(index) ? "checked" : ""} />
+        <span>${finger.label}</span>
+        <small>${finger.pin}</small>
+      </label>
+    `).join("");
+  }
+
   function renderFingerMetrics() {
-    els.fingerMetrics.innerHTML = FINGERS.map((finger) => `
-      <article class="finger-card" data-finger-card="${finger.key}">
+    els.fingerMetrics.innerHTML = FINGERS.map((finger, index) => {
+      const connected = isFingerConnected(index);
+      return `
+      <article class="finger-card ${connected ? "" : "is-inactive"}" data-finger-card="${finger.key}">
         <div>
           <strong>${finger.label}</strong>
-          <span class="finger-value">--</span>
+          <span class="finger-value">${connected ? "--" : "niet aangesloten"}</span>
         </div>
         <div class="finger-track"><span class="finger-fill" style="background:${finger.color}"></span></div>
-        <small class="finger-raw">ruw --</small>
+        <small class="finger-raw">${connected ? "ruw --" : "pin genegeerd"}</small>
       </article>
-    `).join("");
+    `;
+    }).join("");
   }
 
   function renderHandSkeleton() {
@@ -516,9 +563,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function updateHandSkeleton(values) {
     FINGERS.forEach((finger, index) => {
-      const points = skeletonPointsFor(finger.key, values[index] / 100);
+      const connected = isFingerConnected(index);
+      const value = connected && Number.isFinite(values[index]) ? values[index] : 0;
+      const points = skeletonPointsFor(finger.key, value / 100);
       const group = document.querySelector(`[data-skeleton="${finger.key}"]`);
       if (!group) return;
+      group.classList.toggle("is-inactive", !connected);
       group.querySelector(".skeleton-bone").setAttribute("points", points.map(pointString).join(" "));
       group.querySelector(".skeleton-joints").innerHTML = points.map((point, pointIndex) => `
         <circle class="skeleton-joint ${pointIndex === 0 ? "is-base" : ""}" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="${pointIndex === 0 ? 5 : 4}"></circle>
@@ -563,13 +613,21 @@ window.addEventListener("DOMContentLoaded", () => {
     els.sampleBody.innerHTML = rows.map((sample) => `
       <tr>
         <td>${(sample.elapsedMs / 1000).toFixed(1)} s</td>
-        ${sample.fingers.map((value) => `<td>${value.toFixed(0)}</td>`).join("")}
+        ${sample.fingers.map((value, index) => (
+          isFingerConnected(index) && Number.isFinite(value)
+            ? `<td>${value.toFixed(0)}</td>`
+            : '<td class="muted-cell">niet aangesloten</td>'
+        )).join("")}
         <td>${escapeHtml(gestureLabel(sample.playerGesture))}</td>
       </tr>
     `).join("");
   }
 
   function renderRoundHistory() {
+    if (!hasRpsFingers()) {
+      els.roundHistoryBody.innerHTML = '<tr><td colspan="4">Wijsvinger, middenvinger en ringvinger zijn nodig voor blad-steen-schaar.</td></tr>';
+      return;
+    }
     if (!state.rpsHistory.length) {
       els.roundHistoryBody.innerHTML = '<tr><td colspan="4">Nog geen ronde gespeeld.</td></tr>';
       return;
@@ -587,7 +645,9 @@ window.addEventListener("DOMContentLoaded", () => {
   function updateCalibrationDisplay() {
     els.openCalibration.textContent = state.calibration.open ? formatFingerSet(state.calibration.open) : "--";
     els.closedCalibration.textContent = state.calibration.closed ? formatFingerSet(state.calibration.closed) : "--";
-    els.calibrationStatus.textContent = hasFullCalibration() ? "Open en gesloten hand vastgelegd" : "Nog niet volledig gekalibreerd";
+    els.calibrationStatus.textContent = hasFullCalibration()
+      ? `Open en gesloten hand vastgelegd voor ${connectedFingerLabels()}`
+      : "Nog niet volledig gekalibreerd";
   }
 
   function updateControls() {
@@ -596,7 +656,8 @@ window.addEventListener("DOMContentLoaded", () => {
     els.btnCaptureOpen.disabled = !hasData;
     els.btnCaptureClosed.disabled = !hasData;
     els.btnReport.disabled = state.samples.length === 0;
-    els.btnStartMatch.disabled = !hasSource;
+    els.btnStartMatch.disabled = !hasSource || !hasRpsFingers();
+    els.rpsFingerNotice.classList.toggle("hidden", hasRpsFingers());
   }
 
   function updateDiagnostics(summary, items = []) {
@@ -611,7 +672,7 @@ window.addEventListener("DOMContentLoaded", () => {
       connect: Boolean(state.source),
       calibration: hasFullCalibration(),
       live: state.samples.length > 0,
-      rps: state.rpsHistory.length > 0,
+      rps: hasRpsFingers() && state.rpsHistory.length > 0,
       report: Boolean(els.inputConclusion.value.trim()),
     };
     els.workflowLinks.forEach((link) => {
@@ -648,12 +709,16 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
     FINGERS.forEach((finger, fingerIndex) => {
+      if (!isFingerConnected(fingerIndex)) {
+        return;
+      }
       ctx.strokeStyle = finger.color;
       ctx.lineWidth = 2;
       ctx.beginPath();
       rows.forEach((sample, index) => {
         const x = 45 + (index / Math.max(rows.length - 1, 1)) * (width - 65);
-        const y = (height - 30) - (sample.fingers[fingerIndex] / 100) * (height - 60);
+        const value = Number.isFinite(sample.fingers[fingerIndex]) ? sample.fingers[fingerIndex] : 0;
+        const y = (height - 30) - (value / 100) * (height - 60);
         if (index === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       });
@@ -697,11 +762,14 @@ window.addEventListener("DOMContentLoaded", () => {
     y += 7;
     doc.text(`Kalibratie: ${hasFullCalibration() ? "open en gesloten hand vastgelegd" : "niet volledig"}`, margin, y);
     y += 10;
+    doc.text(`Aangesloten vingers: ${connectedFingerLabels()}`, margin, y);
+    y += 10;
 
-    y = addPdfBlock(doc, y, "Laatste vingerwaarden", FINGERS.map((finger, index) => {
+    y = addPdfBlock(doc, y, "Laatste vingerwaarden", FINGERS.filter((_, index) => isFingerConnected(index)).map((finger) => {
+      const index = FINGERS.findIndex((item) => item.key === finger.key);
       const value = state.latestSample?.fingers[index] ?? 0;
       return `${finger.label}: ${value.toFixed(0)}%`;
-    }).join("\n"));
+    }).join("\n") || "Geen aangesloten vingers geselecteerd.");
     y = addPdfBlock(doc, y, "Blad-steen-schaar", state.rpsHistory.length
       ? state.rpsHistory.map((row) => `Ronde ${row.round}: ${gestureLabel(row.player)} tegen ${gestureLabel(row.opponent)} - ${row.result}`).join("\n")
       : "Nog geen ronde gespeeld.");
@@ -739,11 +807,90 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function hasFullCalibration() {
-    return Boolean(state.calibration.open && state.calibration.closed);
+    const activeIndexes = connectedFingerIndexes();
+    return Boolean(
+      activeIndexes.length
+      && state.calibration.open
+      && state.calibration.closed
+      && activeIndexes.every((index) => (
+        Number.isFinite(state.calibration.open[index])
+        && Number.isFinite(state.calibration.closed[index])
+      ))
+    );
   }
 
   function formatFingerSet(values) {
-    return values.map((value) => value.toFixed(0)).join(" / ");
+    return connectedFingerIndexes()
+      .map((index) => `${FINGERS[index].label} ${Number.isFinite(values[index]) ? values[index].toFixed(0) : "--"}`)
+      .join(" / ") || "--";
+  }
+
+  function handleFingerToggleChange(event) {
+    if (!event.target.matches("[data-finger-toggle]")) {
+      return;
+    }
+    const selected = [...els.fingerToggleGroup.querySelectorAll("[data-finger-toggle]")]
+      .filter((input) => input.checked)
+      .map((input) => input.value);
+    if (!selected.length) {
+      event.target.checked = true;
+      return;
+    }
+    setConnectedFingers(selected);
+  }
+
+  function setConnectedFingers(keys) {
+    const selected = new Set(keys);
+    state.connectedFingers = FINGERS.map((finger) => selected.has(finger.key));
+    renderFingerToggles();
+    refreshSamplesForFingerSelection();
+    renderFingerMetrics();
+    updateCalibrationDisplay();
+    if (state.latestSample) {
+      updateLiveUi(state.latestSample);
+      updateRpsUi(state.latestRaw);
+    } else {
+      updateHandSkeleton([0, 0, 0, 0, 0]);
+    }
+    renderSampleTable();
+    renderRoundHistory();
+    drawChart();
+    updateControls();
+    updateWorkflowState();
+  }
+
+  function refreshSamplesForFingerSelection() {
+    state.samples = state.samples.map((sample) => ({
+      ...sample,
+      fingers: applyCalibration(sample.raw),
+      playerGesture: hasRpsFingers() ? sample.playerGesture : 0,
+    }));
+    if (state.latestSample) {
+      state.latestSample = {
+        ...state.latestSample,
+        fingers: applyCalibration(state.latestSample.raw),
+        playerGesture: hasRpsFingers() ? state.latestSample.playerGesture : 0,
+      };
+    }
+  }
+
+  function isFingerConnected(index) {
+    return Boolean(state.connectedFingers[index]);
+  }
+
+  function connectedFingerIndexes() {
+    return FINGERS.map((_, index) => index).filter((index) => isFingerConnected(index));
+  }
+
+  function connectedFingerLabels() {
+    return connectedFingerIndexes().map((index) => `${FINGERS[index].label} (${FINGERS[index].pin})`).join(", ");
+  }
+
+  function hasRpsFingers() {
+    return ["index", "middle", "ring"].every((key) => {
+      const index = FINGERS.findIndex((finger) => finger.key === key);
+      return isFingerConnected(index);
+    });
   }
 
   function packetToLine(packet) {

@@ -688,6 +688,96 @@ button:disabled {
   min-width: 0;
 }
 
+.connected-fingers-panel {
+  margin-bottom: 0.85rem;
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+  padding: 0.9rem;
+  background: #fbfdff;
+}
+
+.connected-fingers-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.connected-fingers-heading h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+.connected-fingers-heading p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.compact-toolbar {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+.finger-toggle-group {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.finger-toggle {
+  position: relative;
+  display: grid;
+  gap: 0.2rem;
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+  padding: 0.65rem;
+  background: #ffffff;
+  color: #334154;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.finger-toggle input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+.finger-toggle span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.finger-toggle span::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  border: 2px solid var(--toggle-color, var(--brand));
+  background: #ffffff;
+}
+
+.finger-toggle small {
+  color: var(--muted);
+  font-weight: 780;
+}
+
+.finger-toggle:has(input:checked) {
+  border-color: var(--toggle-color, var(--brand));
+  background: #f5f0ff;
+  color: var(--ink);
+}
+
+.finger-toggle:has(input:checked) span::before {
+  background: var(--toggle-color, var(--brand));
+}
+
 .hand-visual {
   position: relative;
   min-height: 390px;
@@ -743,6 +833,11 @@ button:disabled {
   pointer-events: none;
 }
 
+.skeleton-finger.is-inactive {
+  --finger-color: #94a3b8 !important;
+  opacity: 0.32;
+}
+
 .finger-metrics {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -755,6 +850,11 @@ button:disabled {
   border-radius: 8px;
   padding: 0.75rem;
   background: #ffffff;
+}
+
+.finger-card.is-inactive {
+  background: #f1f5f9;
+  color: #64748b;
 }
 
 .finger-card > div:first-child {
@@ -780,6 +880,20 @@ button:disabled {
 
 .finger-card small {
   color: var(--muted);
+}
+
+.muted-cell {
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+.finger-card.is-inactive .finger-fill {
+  width: 0 !important;
+  background: #94a3b8 !important;
+}
+
+.finger-card.is-inactive .finger-raw {
+  color: #64748b;
 }
 
 #finger-chart {
@@ -898,6 +1012,17 @@ th {
   gap: 0.85rem;
 }
 
+.inline-warning {
+  margin: 0;
+  border: 1px solid #ffcf70;
+  border-radius: 8px;
+  padding: 0.7rem 0.75rem;
+  background: #fff7df;
+  color: #5c3d00;
+  font-weight: 780;
+  line-height: 1.45;
+}
+
 .game-status {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -991,6 +1116,14 @@ th {
 
   .finger-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .finger-toggle-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .connected-fingers-heading {
+    display: grid;
   }
 
   .cta-band,
