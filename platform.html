@@ -16,6 +16,48 @@
   <link rel="stylesheet" href="style.css" />
   <script src="vendor/jspdf.umd.min.js" defer></script>
   <script src="script.js" defer></script>
+  <style id="platform-language-toggle-styles">
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(82, 0, 255, 0.22);
+  border-radius: 999px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 10px 24px rgba(82, 0, 255, 0.08);
+}
+.language-toggle button {
+  min-width: 44px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--muted, #625b70);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.language-toggle button.is-active {
+  background: var(--brand, var(--brand-purple, var(--primary, #5200FF)));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(82, 0, 255, 0.20);
+}
+.language-toggle button:focus-visible {
+  outline: 3px solid rgba(61, 255, 208, 0.75);
+  outline-offset: 2px;
+}
+.header-actions .language-toggle,
+.toolbar .language-toggle,
+.app-actions .language-toggle {
+  flex: 0 0 auto;
+}
+@media (max-width: 760px) {
+  .language-toggle { order: 2; }
+}
+</style>
 </head>
 <body class="app-page">
   <header class="app-header">
@@ -24,7 +66,12 @@
       <h1>Platform Robothand</h1>
     </div>
     <div class="header-actions">
-      <a class="secondary-button header-link" href="index.html">Startpagina</a>
+      
+      <div class="language-toggle" role="group" aria-label="Taalkeuze">
+        <button type="button" class="is-active" data-language-choice="nl" aria-pressed="true">NL</button>
+        <button type="button" data-language-choice="en" aria-pressed="false">ENG</button>
+      </div>
+<a class="secondary-button header-link" href="index.html">Startpagina</a>
       <span id="connection-status" class="status-pill">Niet verbonden</span>
     </div>
   </header>
@@ -269,5 +316,365 @@
   <footer class="app-footer">
     <p>Auteur: Robbe Wulgaert · AI in de Klas · robbewulgaert.be · © 2026 Robbe Wulgaert. Alle rechten voorbehouden.</p>
   </footer>
+<script id="platform-language-toggle-script">
+(() => {
+  const LANGUAGE_KEY = "aiindeklas:index-language";
+  const TRANSLATIONS = {
+  "Taalkeuze": "Language selection",
+  "Startpagina": "Start page",
+  "Start platform": "Start platform",
+  "Start leerplatform": "Start learning platform",
+  "Niet verbonden": "Not connected",
+  "Verbind": "Connect",
+  "Verbinden": "Connecting",
+  "Bouw": "Build",
+  "Bouwen": "Building",
+  "Voorspel": "Predict",
+  "Voorspellen": "Predicting",
+  "Meet": "Measure",
+  "Meten": "Measuring",
+  "Vergelijk": "Compare",
+  "Vergelijken": "Comparing",
+  "Besluit": "Conclusion",
+  "Besluiten": "Concluding",
+  "Kalibreer": "Calibrate",
+  "Kalibreren": "Calibrating",
+  "Observeer": "Observe",
+  "Observeren": "Observing",
+  "Speel": "Play",
+  "Model": "Model",
+  "Kies model": "Choose model",
+  "Test": "Test",
+  "Testen": "Testing",
+  "Sorteer": "Sort",
+  "Sorteren": "Sorting",
+  "Menu": "Menu",
+  "Inhoud": "Contents",
+  "Sluiten": "Close",
+  "Sluiten X": "Close X",
+  "x": "x",
+  "X": "X",
+  "Oefening": "Exercise",
+  "OEFENING": "EXERCISE",
+  "Code-editor": "Code editor",
+  "Editor": "Editor",
+  "Uitvoeren": "Run",
+  "Uitvoer": "Output",
+  "Console-uitvoer": "Console output",
+  "Feedback": "Feedback",
+  "Status": "Status",
+  "Data": "Data",
+  "Diagnose": "Diagnostics",
+  "Nog geen data ontvangen.": "No data received yet.",
+  "Laatste regel: --": "Last line: --",
+  "Laatste code: --": "Last code: --",
+  "Rapport": "Report",
+  "Rapportinstellingen": "Report settings",
+  "Wie maakt dit rapport?": "Who is making this report?",
+  "Naam": "Name",
+  "Naam:": "Name:",
+  "Naam of namen": "Name or names",
+  "Klas": "Class",
+  "Klas:": "Class:",
+  "Annuleren": "Cancel",
+  "Annuleer": "Cancel",
+  "OK": "OK",
+  "Doorgaan": "Continue",
+  "Reset": "Reset",
+  "Genereer PDF": "Generate PDF",
+  "Maak PDF": "Create PDF",
+  "Exporteren": "Export",
+  "Exporteren naar PDF": "Export to PDF",
+  "Reeks exporteren naar PDF": "Export series to PDF",
+  "Vooruitgang wissen": "Clear progress",
+  "Voortgang wissen": "Clear progress",
+  "Alleen huidige oefening": "Current exercise only",
+  "Alle voortgang": "All progress",
+  "Volledige reeks": "Full series",
+  "Volledige cursus": "Full course",
+  "Kies wat je wil wissen.": "Choose what you want to clear.",
+  "Donker/Licht": "Dark/Light",
+  "Thema": "Theme",
+  "Donkere/lichte modus": "Dark/light mode",
+  "Donkere of lichte modus": "Dark or light mode",
+  "Formularium": "Reference sheet",
+  "HTML Formularium": "HTML reference sheet",
+  "Python Formularium": "Python reference sheet",
+  "Blockly Formularium": "Blockly reference sheet",
+  "Hulp": "Help",
+  "Help": "Help",
+  "Schema": "Diagram",
+  "Checklist": "Checklist",
+  "Onderzoeksvraag": "Research question",
+  "Hypothese": "Hypothesis",
+  "Besluit en reflectie": "Conclusion and reflection",
+  "Reflectie": "Reflection",
+  "Korte reflectie": "Short reflection",
+  "Waarde": "Value",
+  "Variabele": "Variable",
+  "Proef": "Trial",
+  "Duur": "Duration",
+  "Plek": "Location",
+  "Tijd": "Time",
+  "Bron": "Source",
+  "Klasse": "Class",
+  "Zekerheid": "Confidence",
+  "Verwacht": "Expected",
+  "Voorspeld": "Predicted",
+  "Verstuurd": "Sent",
+  "Projectstappen": "Project steps",
+  "Onderzoeksstappen": "Research steps",
+  "Auteur: Robbe Wulgaert · AI in de Klas · robbewulgaert.be · © 2026 Robbe Wulgaert. Alle rechten voorbehouden.": "Author: Robbe Wulgaert · AI in de Klas · robbewulgaert.be · © 2026 Robbe Wulgaert. All rights reserved.",
+  "Platform Robothand": "Robotic Hand Platform",
+  "1. Bouw": "1. Build",
+  "2. Verbind": "2. Connect",
+  "3. Kalibreer": "3. Calibrate",
+  "4. Observeer": "4. Observe",
+  "5. Speel": "5. Play",
+  "6. Besluit": "6. Conclude",
+  "Controleer de opstelling": "Check the setup",
+  "Arduino UNO is aangesloten via USB.": "Arduino UNO is connected by USB.",
+  "De sensorhandschoen is verbonden met de analoge pinnen.": "The sensor glove is connected to the analogue pins.",
+  "De vijf servomotoren zijn aangesloten en kunnen vrij bewegen.": "The five servomotors are connected and can move freely.",
+  "De Arduino-code staat op het bord.": "The Arduino code is on the board.",
+  "Arduino of demomodus": "Arduino or demo mode",
+  "Verbind de Arduino via WebSerial. Zonder hardware kun je de demomodus gebruiken om het lesverloop, grafieken en rapportage te testen.": "Connect the Arduino through WebSerial. Without hardware, you can use demo mode to test the lesson flow, charts and reporting.",
+  "Verbind Arduino": "Connect Arduino",
+  "Start demomodus": "Start demo mode",
+  "Verwachte seriele data: 22 kommagescheiden waarden.": "Expected serial data: 22 comma-separated values.",
+  "Leg open en gesloten hand vast": "Capture open and closed hand",
+  "Laat de hand eerst volledig open, daarna volledig gesloten. De webapp gebruikt die waarden om elke vinger duidelijker te visualiseren.": "First keep the hand fully open, then fully closed. The web app uses those values to visualise each finger more clearly.",
+  "Open hand vastleggen": "Capture open hand",
+  "Gesloten hand vastleggen": "Capture closed hand",
+  "Kalibratie wissen": "Clear calibration",
+  "Gesloten:": "Closed:",
+  "Nog niet gekalibreerd": "Not calibrated yet",
+  "Live robothand": "Live robotic hand",
+  "Aangesloten vingers": "Connected fingers",
+  "Kies welke flexsensoren echt aangesloten zijn. Losse analoge pinnen worden genegeerd.": "Choose which flex sensors are actually connected. Loose analogue pins are ignored.",
+  "Alle vingers": "All fingers",
+  "Alleen wijsvinger": "Index finger only",
+  "Recente metingen": "Recent measurements",
+  "Duim": "Thumb",
+  "Wijs": "Index",
+  "Midden": "Middle",
+  "Ring": "Ring",
+  "Pink": "Little finger",
+  "Gebaar": "Gesture",
+  "Nog geen data.": "No data yet.",
+  "Blad-steen-schaar": "Rock-paper-scissors",
+  "Gebaren herkennen": "Recognise gestures",
+  "Ronde duurtijd": "Round duration",
+  "Tegenstander": "Opponent",
+  "Willekeurig": "Random",
+  "Steen": "Rock",
+  "Blad": "Paper",
+  "Schaar": "Scissors",
+  "Start match": "Start match",
+  "Voor blad-steen-schaar heb je minstens wijsvinger, middenvinger en ringvinger nodig.": "For rock-paper-scissors, you need at least index finger, middle finger and ring finger.",
+  "Countdown": "Countdown",
+  "Jouw gebaar": "Your gesture",
+  "Jij": "You",
+  "Resultaat": "Result",
+  "Nog geen ronde gespeeld.": "No round played yet.",
+  "Rapport en reflectie": "Report and reflection",
+  "Wat werkte goed aan de robothand?": "What worked well about the robotic hand?",
+  "Wat zou je aanpassen?": "What would you change?",
+  "Bijv. Noor, Adam en Lina": "E.g. Noor, Adam and Lina",
+  "Bijv. 1IW A": "E.g. 1IW A"
+};
+  const PATTERNS = [
+  {
+    "pattern": "^Voortgang: (.+)$",
+    "replacement": "Progress: $1"
+  },
+  {
+    "pattern": "^Snelheid: (.+) ms/stap$",
+    "replacement": "Speed: $1 ms/step"
+  },
+  {
+    "pattern": "^Snelheid: (.+)$",
+    "replacement": "Speed: $1"
+  },
+  {
+    "pattern": "^Pogingen: (.+) \\| Tijd: (.+)$",
+    "replacement": "Attempts: $1 | Time: $2"
+  },
+  {
+    "pattern": "^Level (.+)$",
+    "replacement": "Level $1"
+  },
+  {
+    "pattern": "^Turtle Level$",
+    "replacement": "Turtle level"
+  },
+  {
+    "pattern": "^Open: (.+)$",
+    "replacement": "Open: $1"
+  },
+  {
+    "pattern": "^Gesloten: (.+)$",
+    "replacement": "Closed: $1"
+  },
+  {
+    "pattern": "^Status: (.+)$",
+    "replacement": "Status: $1"
+  },
+  {
+    "pattern": "^Ronde (.+)$",
+    "replacement": "Round $1"
+  },
+  {
+    "pattern": "^dt = (.+) s\\. (.+)$",
+    "replacement": "dt = $1 s. $2"
+  },
+  {
+    "pattern": "^Verbonden \\((.+) baud\\)$",
+    "replacement": "Connected ($1 baud)"
+  },
+  {
+    "pattern": "^Data ontvangen via (.+)\\. (.+)$",
+    "replacement": "Data received via $1. $2"
+  }
+];
+  const META = {
+  "title": "Robotic Hand Platform",
+  "description": "Web platform for Project Robotic Hand J1 with WebSerial, live finger data, calibration, robotic hand visualisation and rock-paper-scissors."
+};
+  const SKIP_SELECTOR = "script, style, noscript, textarea, input, canvas, svg, code, pre, kbd, samp, .CodeMirror, .cm-editor, .blocklySvg, .blocklyWidgetDiv, .blocklyTooltipDiv";
+  const textRecords = new WeakMap();
+  const attrRecords = [];
+  let currentLanguage = "nl";
+  let applying = false;
+  let originalTitle = document.title;
+  let originalDescription = null;
+  const normalize = (value) => String(value || "").replace(/\s+/g, " ").trim();
+  function preserveOuterWhitespace(original, translated) {
+    const start = String(original).match(/^\s*/)?.[0] || "";
+    const end = String(original).match(/\s*$/)?.[0] || "";
+    return start + translated + end;
+  }
+  function translateKey(key) {
+    if (TRANSLATIONS[key]) return TRANSLATIONS[key];
+    for (const item of PATTERNS) {
+      const regex = new RegExp(item.pattern);
+      if (regex.test(key)) return key.replace(regex, item.replacement);
+    }
+    return null;
+  }
+  function shouldSkipNode(node) {
+    const element = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
+    return !element || element.closest(SKIP_SELECTOR);
+  }
+  function translateTextNode(node) {
+    if (shouldSkipNode(node)) return;
+    const raw = node.nodeValue;
+    const key = normalize(raw);
+    if (!key) return;
+    let record = textRecords.get(node);
+    if (!record) {
+      record = { original: raw, translatedByUs: false };
+      textRecords.set(node, record);
+    }
+    if (currentLanguage === "en") {
+      if (!record.translatedByUs) record.original = raw;
+      const translated = translateKey(key);
+      if (translated) {
+        node.nodeValue = preserveOuterWhitespace(raw, translated);
+        record.translatedByUs = true;
+      }
+    } else if (record.translatedByUs) {
+      node.nodeValue = record.original;
+      record.translatedByUs = false;
+    }
+  }
+  function collectAttributeRecords() {
+    if (attrRecords.length) return;
+    document.querySelectorAll("[aria-label], [alt], [title], [placeholder]").forEach((element) => {
+      if (element.closest(SKIP_SELECTOR)) return;
+      ["aria-label", "alt", "title", "placeholder"].forEach((attr) => {
+        if (element.hasAttribute(attr)) {
+          attrRecords.push({ element, attr, original: element.getAttribute(attr), translatedByUs: false });
+        }
+      });
+    });
+  }
+  function translateAttributes() {
+    collectAttributeRecords();
+    attrRecords.forEach((entry) => {
+      const current = entry.element.getAttribute(entry.attr) || "";
+      if (currentLanguage === "en") {
+        if (!entry.translatedByUs) entry.original = current;
+        const translated = translateKey(normalize(current));
+        if (translated) {
+          entry.element.setAttribute(entry.attr, translated);
+          entry.translatedByUs = true;
+        }
+      } else if (entry.translatedByUs) {
+        entry.element.setAttribute(entry.attr, entry.original);
+        entry.translatedByUs = false;
+      }
+    });
+  }
+  function translateTree(root = document.body) {
+    if (!root || shouldSkipNode(root)) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        return shouldSkipNode(node) || !normalize(node.nodeValue) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(translateTextNode);
+  }
+  function setLanguage(language) {
+    currentLanguage = language === "en" ? "en" : "nl";
+    applying = true;
+    translateTree(document.body);
+    translateAttributes();
+    document.documentElement.lang = currentLanguage === "en" ? "en" : "nl-BE";
+    document.title = currentLanguage === "en" && META.title ? META.title : originalTitle;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) {
+      if (originalDescription === null) originalDescription = description.getAttribute("content") || "";
+      description.setAttribute("content", currentLanguage === "en" && META.description ? META.description : originalDescription);
+    }
+    document.querySelectorAll("[data-language-choice]").forEach((button) => {
+      const isActive = button.dataset.languageChoice === currentLanguage;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+    try { localStorage.setItem(LANGUAGE_KEY, currentLanguage); } catch (error) {}
+    applying = false;
+  }
+  function initLanguageToggle() {
+    document.querySelectorAll("[data-language-choice]").forEach((button) => {
+      button.addEventListener("click", () => setLanguage(button.dataset.languageChoice));
+    });
+    let saved = "nl";
+    try {
+      const requested = new URLSearchParams(window.location.search).get("lang");
+      saved = requested || localStorage.getItem(LANGUAGE_KEY) || "nl";
+    } catch (error) {}
+    setLanguage(saved === "en" ? "en" : "nl");
+    const observer = new MutationObserver((mutations) => {
+      if (applying || currentLanguage !== "en") return;
+      applying = true;
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) translateTextNode(node);
+          else if (node.nodeType === Node.ELEMENT_NODE) translateTree(node);
+        });
+        if (mutation.type === "characterData") translateTextNode(mutation.target);
+      });
+      applying = false;
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    window.setPlatformLanguage = setLanguage;
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initLanguageToggle);
+  else initLanguageToggle();
+})();
+</script>
 </body>
 </html>
