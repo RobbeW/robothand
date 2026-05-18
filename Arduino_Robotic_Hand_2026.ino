@@ -32,18 +32,25 @@ const bool invertSensor[N_FINGERS] = {false, false, false, false, false};
 
 const int SERVO_MIN = 10;
 const int SERVO_MAX = 160;
+// Kleine schommelingen rond dezelfde doelhoek worden genegeerd.
+const int SERVO_DEADBAND_DEGREES = 2;
+// Servo's bewegen per update maximaal zoveel graden richting hun doel.
+const int SERVO_MAX_STEP_DEGREES = 4;
 
 // Zet per vinger op true als de servo verkeerd om beweegt.
 const bool invertServo[N_FINGERS] = {false, false, false, false, false};
 
 Servo servos[N_FINGERS];
+int servoAngles[N_FINGERS] = {SERVO_MIN, SERVO_MIN, SERVO_MIN, SERVO_MIN, SERVO_MIN};
 
 // ------------------------------------------------------------
 // Sensorverwerking
 // ------------------------------------------------------------
 
 const int NUM_SAMPLES = 12;
-const int MIN_CALIBRATION_RANGE = 25;
+const int MIN_CALIBRATION_RANGE = 60;
+// Kleine meetruis in procenten wordt niet doorgestuurd naar de servo's.
+const int SENSOR_DEADBAND_PERCENT = 2;
 
 int smoothingBuffer[N_FINGERS][NUM_SAMPLES];
 long smoothingTotal[N_FINGERS] = {0};
@@ -126,7 +133,8 @@ void setup() {
     }
 
     servos[i].attach(servoPins[i]);
-    servos[i].write(SERVO_MIN);
+    servoAngles[i] = SERVO_MIN;
+    servos[i].write(servoAngles[i]);
   }
 }
 
@@ -157,14 +165,26 @@ void updateSensorsAndServos() {
   readSensors();
 
   for (int i = 0; i < N_FINGERS; i++) {
-    int servoAngle = map(fingerValues[i], 0, 100, SERVO_MIN, SERVO_MAX);
+    int targetAngle = map(fingerValues[i], 0, 100, SERVO_MIN, SERVO_MAX);
 
     if (invertServo[i]) {
-      servoAngle = map(fingerValues[i], 0, 100, SERVO_MAX, SERVO_MIN);
+      targetAngle = map(fingerValues[i], 0, 100, SERVO_MAX, SERVO_MIN);
     }
 
-    servoAngle = constrain(servoAngle, SERVO_MIN, SERVO_MAX);
-    servos[i].write(servoAngle);
+    targetAngle = constrain(targetAngle, SERVO_MIN, SERVO_MAX);
+
+    int difference = targetAngle - servoAngles[i];
+    if (abs(difference) <= SERVO_DEADBAND_DEGREES) {
+      continue;
+    }
+
+    int stepSize = min(abs(difference), SERVO_MAX_STEP_DEGREES);
+    if (difference < 0) {
+      stepSize = -stepSize;
+    }
+
+    servoAngles[i] = constrain(servoAngles[i] + stepSize, SERVO_MIN, SERVO_MAX);
+    servos[i].write(servoAngles[i]);
   }
 }
 
@@ -199,7 +219,14 @@ void readSensors() {
       value = 100 - value;
     }
 
-    fingerValues[i] = constrain(value, 0, 100);
+    int nextValue = constrain(value, 0, 100);
+    if (
+      abs(nextValue - fingerValues[i]) > SENSOR_DEADBAND_PERCENT ||
+      nextValue == 0 ||
+      nextValue == 100
+    ) {
+      fingerValues[i] = nextValue;
+    }
   }
 
   smoothingIndex++;
