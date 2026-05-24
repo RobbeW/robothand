@@ -342,7 +342,11 @@ body > header .tab.active {
         <label><input type="checkbox" /> Arduino UNO is aangesloten via USB.</label>
         <label><input type="checkbox" /> De sensorhandschoen is verbonden met de analoge pinnen.</label>
         <label><input type="checkbox" /> De vijf servomotoren zijn aangesloten en kunnen vrij bewegen.</label>
-        <label><input type="checkbox" /> De Arduino-code staat op het bord.</label>
+        <label class="steam-code-check-item">
+          <input type="checkbox" />
+          <span>De Arduino-code staat op het bord.</span>
+          <button id="btn-code-help" class="steam-code-help-button" type="button" aria-label="Toon waar de projectcode staat" title="Toon waar de projectcode staat">?</button>
+        </label>
       </div>
     </section>
 
@@ -558,6 +562,16 @@ body > header .tab.active {
     </form>
   </div>
 
+  <div id="code-help-modal" class="report-overlay hidden code-help-overlay" role="dialog" aria-modal="true" aria-labelledby="code-help-title">
+    <article class="report-modal steam-code-modal">
+      <button id="btn-close-code-help" class="close-button" type="button" aria-label="Sluit codehulp">x</button>
+      <p class="eyebrow">Code uploaden</p>
+      <h2 id="code-help-title">Waar vind ik de Arduino-code?</h2>
+      <p>Deze opstelling werkt pas wanneer de Arduino de juiste projectcode heeft gekregen. Je vindt de code tussen de andere bronbestanden.</p>
+      <a class="steam-code-link" href="https://github.com/RobbeW/robothand" target="_blank" rel="noopener noreferrer">Open RobbeW/robothand op GitHub</a>
+    </article>
+  </div>
+
   <footer class="app-footer">
     <p>Auteur: Robbe Wulgaert Â· AI in de Klas Â· robbewulgaert.be Â· Â© 2026 Robbe Wulgaert. Alle rechten voorbehouden.</p>
   </footer>
@@ -685,6 +699,12 @@ body > header .tab.active {
   "De sensorhandschoen is verbonden met de analoge pinnen.": "The sensor glove is connected to the analogue pins.",
   "De vijf servomotoren zijn aangesloten en kunnen vrij bewegen.": "The five servomotors are connected and can move freely.",
   "De Arduino-code staat op het bord.": "The Arduino code is on the board.",
+  "Toon waar de projectcode staat": "Show where the project code is",
+  "Code uploaden": "Upload code",
+  "Waar vind ik de Arduino-code?": "Where can I find the Arduino code?",
+  "Deze opstelling werkt pas wanneer de Arduino de juiste projectcode heeft gekregen. Je vindt de code tussen de andere bronbestanden.": "This setup only works after the Arduino has received the correct project code. You can find the code with the other source files.",
+  "Open RobbeW/robothand op GitHub": "Open RobbeW/robothand on GitHub",
+  "Sluit codehulp": "Close code help",
   "Arduino of demomodus": "Arduino or demo mode",
   "Verbind de Arduino via WebSerial. Zonder hardware kun je de demomodus gebruiken om het lesverloop, grafieken en rapportage te testen.": "Connect the Arduino through WebSerial. Without hardware, you can use demo mode to test the lesson flow, charts and reporting.",
   "Verbind Arduino": "Connect Arduino",

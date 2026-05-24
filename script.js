@@ -53,6 +53,9 @@ window.addEventListener("DOMContentLoaded", () => {
     btnCaptureClosed: $("btn-capture-closed"),
     btnResetCalibration: $("btn-reset-calibration"),
     btnReport: $("btn-report"),
+    btnCodeHelp: $("btn-code-help"),
+    btnCloseCodeHelp: $("btn-close-code-help"),
+    codeHelpModal: $("code-help-modal"),
     reportModal: $("report-modal"),
     reportForm: $("report-form"),
     reportNames: $("report-names"),
@@ -130,6 +133,17 @@ window.addEventListener("DOMContentLoaded", () => {
     els.btnCaptureClosed.addEventListener("click", () => captureCalibration("closed"));
     els.btnResetCalibration.addEventListener("click", resetCalibration);
     els.btnReport.addEventListener("click", openReportModal);
+    els.btnCodeHelp.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openCodeHelpModal();
+    });
+    els.btnCloseCodeHelp.addEventListener("click", closeCodeHelpModal);
+    els.codeHelpModal.addEventListener("click", (event) => {
+      if (event.target === els.codeHelpModal) {
+        closeCodeHelpModal();
+      }
+    });
     els.btnCancelReport.addEventListener("click", closeReportModal);
     els.btnReportBack.addEventListener("click", closeReportModal);
     els.reportModal.addEventListener("click", (event) => {
@@ -748,6 +762,16 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     els.reportModal.classList.remove("hidden");
     els.reportNames.focus();
+  }
+
+  function openCodeHelpModal() {
+    els.codeHelpModal.classList.remove("hidden");
+    els.btnCloseCodeHelp.focus();
+  }
+
+  function closeCodeHelpModal() {
+    els.codeHelpModal.classList.add("hidden");
+    els.btnCodeHelp.focus();
   }
 
   function closeReportModal() {
