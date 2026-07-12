@@ -1778,6 +1778,40 @@ th {
   box-shadow: 0 0 0 3px #ece6fa;
 }
 
+/* Workflow controls follow the shared Smart Plants step-navigation model. */
+.app-page .workflow-step {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.65rem;
+  border-color: rgba(82, 0, 255, 0.32);
+  transition:
+    color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.app-page .workflow-step:hover,
+.app-page .workflow-step:focus-visible {
+  border-color: var(--brand);
+  background: var(--brand-softer);
+  color: var(--brand-dark);
+  transform: translateY(-2px);
+}
+
+.app-page .workflow-step:focus-visible {
+  outline: 3px solid rgba(61, 255, 208, 0.6);
+  outline-offset: 2px;
+}
+
+.app-page .workflow-step.is-active:hover,
+.app-page .workflow-step.is-active:focus-visible,
+.app-page .workflow-step.is-complete:hover,
+.app-page .workflow-step.is-complete:focus-visible {
+  background: var(--brand);
+  color: #fff;
+}
+
 .app-page .control-panel .toolbar,
 .app-page .connected-fingers-heading .toolbar {
   column-gap: 1.05rem;
