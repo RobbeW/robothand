@@ -1503,6 +1503,31 @@ th {
   }
 }
 
+@media (max-width: 760px) {
+  .nav-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    display: none;
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0.5rem 0 0.2rem;
+  }
+
+  .nav-links.is-open {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .menu-button {
+    display: inline-flex;
+  }
+}
+
 @media (max-width: 560px) {
   .app-header {
     align-items: flex-start;
@@ -1531,20 +1556,6 @@ th {
 
   .brand-subtitle {
     display: none;
-  }
-
-  .nav-links {
-    display: none;
-    padding: 0.5rem 0 0.2rem;
-  }
-
-  .nav-links.is-open {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .menu-button {
-    display: inline-flex;
   }
 
   .landing-hero {
