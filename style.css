@@ -291,6 +291,37 @@ img {
   max-width: 760px;
 }
 
+.privacy-license-list { display: grid; gap: 14px; margin-top: 28px; }
+.privacy-license-details { margin: 0; }
+.privacy-license-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--brand);
+  cursor: pointer;
+  font-size: 1.12rem;
+  font-weight: 900;
+  list-style: none;
+}
+.privacy-license-details summary::-webkit-details-marker { display: none; }
+.privacy-license-details summary::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #f7f3ff;
+  color: var(--brand);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.privacy-license-details[open] summary::after { content: "−"; }
+.privacy-license-content { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.privacy-license-content p + p { margin-top: 12px; }
+
 .step-card,
 .feature-card {
   border: 1px solid var(--line);
@@ -334,6 +365,9 @@ img {
 
 .audience-card {
   max-width: 900px;
+  border: 1px solid var(--line);
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .photo-frame {
