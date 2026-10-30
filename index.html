@@ -7,30 +7,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Project Robothand</title>
-  <meta
-    name="description"
-    content="Project Robothand is een klasproject waarin leerlingen met Arduino, sensoren en servomotoren onderzoeken hoe een robothand menselijke beweging kan nabootsen."
-  />
   <meta name="author" content="Robbe Wulgaert, AI in de Klas, robbewulgaert.be" />
   <meta name="copyright" content="Copyright (c) 2026 Robbe Wulgaert" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://robbew.github.io/robothand/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="nl_BE" />
-  <meta property="og:site_name" content="AI in de Klas" />
-  <meta property="og:title" content="Project Robothand" />
-  <meta property="og:description" content="Onderzoek met Arduino, sensoren en servomotoren hoe een robothand menselijke beweging kan nabootsen." />
-  <meta property="og:url" content="https://robbew.github.io/robothand/" />
-  <meta property="og:image" content="https://robbew.github.io/robothand/media/landing_page_photo.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Project Robothand" />
-  <meta name="twitter:description" content="Onderzoek met Arduino, sensoren en servomotoren hoe een robothand menselijke beweging kan nabootsen." />
-  <meta name="twitter:image" content="https://robbew.github.io/robothand/media/landing_page_photo.jpg" />
-
+  <!-- generated:favicon -->
   <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=ff7968036640">
   <link rel="shortcut icon" type="image/png" sizes="64x64" href="./favicon.png?v=ff7968036640">
+  <!-- /generated:favicon -->
 <link rel="stylesheet" href="style.css" />
+  <style>@media (max-width: 980px) { .split { grid-template-columns: minmax(0, 1fr); } .cta-band > div { min-width: 0; } h1, h2 { overflow-wrap: anywhere; } }</style>
   <style id="language-toggle-styles">
 .language-toggle {
   display: inline-flex;
@@ -42,7 +26,7 @@
   padding: 4px;
   box-shadow: 0 10px 24px rgba(82, 0, 255, 0.08);
 }
-.language-toggle button {
+.language-toggle a {
   min-width: 44px;
   min-height: 36px;
   border: 0;
@@ -55,16 +39,39 @@
   font-weight: 900;
   cursor: pointer;
 }
-.language-toggle button.is-active {
+.language-toggle a.is-active {
   background: var(--brand, var(--brand-purple, var(--delphi-blue, #5200FF)));
   color: #fff;
   box-shadow: 0 10px 22px rgba(82, 0, 255, 0.20);
 }
-.language-toggle button:focus-visible {
+.language-toggle a:focus-visible {
   outline: 3px solid rgba(61, 255, 208, 0.75);
   outline-offset: 2px;
 }
 </style>
+<!-- generated:seo-head -->
+<title>Project Robothand</title>
+<meta name="description" content="Project Robothand laat leerlingen een sensorhandschoen bouwen die via Arduino een robothand met servomotoren bestuurt.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://robbew.github.io/robothand/">
+<link rel="alternate" hreflang="nl-BE" href="https://robbew.github.io/robothand/">
+<link rel="alternate" hreflang="en" href="https://robbew.github.io/robothand/en.html">
+<link rel="alternate" hreflang="x-default" href="https://robbew.github.io/robothand/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="nl_BE">
+<meta property="og:title" content="Project Robothand">
+<meta property="og:description" content="Project Robothand laat leerlingen een sensorhandschoen bouwen die via Arduino een robothand met servomotoren bestuurt.">
+<meta property="og:url" content="https://robbew.github.io/robothand/">
+<meta property="og:image" content="https://robbew.github.io/robothand/media/landing_page_photo.jpg">
+<meta property="og:image:alt" content="Project Robothand — lesproject">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Project Robothand">
+<meta name="twitter:description" content="Project Robothand laat leerlingen een sensorhandschoen bouwen die via Arduino een robothand met servomotoren bestuurt.">
+<meta name="twitter:image" content="https://robbew.github.io/robothand/media/landing_page_photo.jpg">
+<meta name="twitter:image:alt" content="Project Robothand — lesproject">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://robbew.github.io/robothand/#webpage","url":"https://robbew.github.io/robothand/","name":"Project Robothand","description":"Project Robothand laat leerlingen een sensorhandschoen bouwen die via Arduino een robothand met servomotoren bestuurt.","inLanguage":"nl-BE","about":{"@id":"https://robbew.github.io/robothand/#resource"},"mainEntity":{"@id":"https://robbew.github.io/robothand/#resource"}},{"@type":"Person","@id":"https://robbew.github.io/aiindeklas/#robbe-wulgaert","name":"Robbe Wulgaert","url":"https://robbew.github.io/aiindeklas/"},{"@type":["CreativeWork","LearningResource"],"@id":"https://robbew.github.io/robothand/#resource","name":"Project Robothand","description":"Project Robothand laat leerlingen een sensorhandschoen bouwen die via Arduino een robothand met servomotoren bestuurt.","url":"https://robbew.github.io/robothand/","creator":{"@id":"https://robbew.github.io/aiindeklas/#robbe-wulgaert"},"license":"https://robbew.github.io/robothand/LICENSE.md","inLanguage":"nl-BE","teaches":["Sensorwaarden verwerken","Actuatoren aansturen en gebaren testen"],"abstract":"Opstelling: Flexsensoren, Arduino en vijf servo’s; Kalibratie: Sensorwaarden naar vingerposities; Weergave: Live meetwaarden in de browser"}]}</script>
+<!-- /generated:seo-head -->
+<style id="seo-facts-styles">.seo-facts dl { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; } .seo-facts dl > div { min-width: 10rem; } .seo-facts dt { font-weight: 700; } .seo-facts dd { margin: 0; } .language-toggle a { text-decoration: none; }</style>
 </head>
 <body class="landing-page">
   <a class="skip-link" href="#main">Spring naar inhoud</a>
@@ -89,8 +96,8 @@
         </div>
         <div class="nav-actions">
           <div class="language-toggle" role="group" aria-label="Taalkeuze">
-            <button type="button" class="is-active" data-language-choice="nl" aria-pressed="true">NL</button>
-            <button type="button" data-language-choice="en" aria-pressed="false">ENG</button>
+            <a href="./" data-language-choice="nl" class="is-active" aria-current="page">NL</a>
+            <a href="en.html" data-language-choice="en">ENG</a>
           </div>
           <a class="btn btn-secondary" href="evaluatie.html">Evaluatie</a>
           <a class="btn btn-primary" href="platform.html">Start platform</a>
@@ -104,10 +111,7 @@
       <div class="hero-content">
         <p class="section-kicker">Project Robothand</p>
         <h1>Bouw en bestuur jouw robothand!</h1>
-        <p class="hero-lead">
-          Leerlingen bouwen een sensorhandschoen, sturen servomotoren aan met Arduino en ontdekken
-          hoe beweging wordt omgezet naar data, code en mechanische actie.
-        </p>
+        <p class="hero-lead">Project Robothand laat leerlingen een sensorhandschoen bouwen die via Arduino een robothand met servomotoren bestuurt.</p>
         <div class="hero-actions" aria-label="Belangrijke acties">
           <a class="btn btn-primary" href="platform.html">Start platform</a>
           <a class="btn btn-secondary" href="#werking">Bekijk de opdracht</a>
@@ -209,13 +213,16 @@
     </section>
 
     <section class="section curriculum-section" id="leerlijn">
+      <!-- generated:seo-facts -->
+<section class="seo-facts" aria-label="Projectgegevens"><dl><div><dt>Opstelling</dt><dd>Flexsensoren, Arduino en vijf servo’s</dd></div><div><dt>Kalibratie</dt><dd>Sensorwaarden naar vingerposities</dd></div><div><dt>Weergave</dt><dd>Live meetwaarden in de browser</dd></div></dl></section>
+<!-- /generated:seo-facts -->
+      <!-- generated:heading -->
       <p class="section-kicker">Plaats in de leerlijn</p>
       <h2 class="section-title">Van platformen naar projecten.</h2>
-      <p class="section-lead">
-        De platformen bouwen het computationeel denken op. De projecten gebruiken dat denken in een
-        vakoverschrijdende opdracht waarin leerlingen bouwen, meten, testen en besluiten.
-      </p>
+      <p class="section-lead">De platformen bouwen het computationeel denken op. De projecten gebruiken dat denken in een vakoverschrijdende opdracht waarin leerlingen bouwen, meten, testen en besluiten.</p>
+      <!-- /generated:heading -->
 
+      <!-- generated:tree -->
       <div class="family-tree" aria-label="Leerlijn van platformen en projecten">
         <div class="tree-root">
           <a class="tree-node root" href="https://www.aiindeklas.be" target="_blank" rel="noopener">
@@ -223,7 +230,6 @@
             <span>van blokken naar code, van code naar onderzoek</span>
           </a>
         </div>
-
         <div class="tree-branches">
           <div class="tree-branch">
             <div class="branch-title">Platformen</div>
@@ -238,7 +244,7 @@
               </a>
               <a class="tree-node" href="https://robbew.github.io/htmlindeklas/" target="_blank" rel="noopener">
                 <strong>HTML</strong>
-                <span>webpagina's structureren.</span>
+                <span>webpagina&#x27;s structureren.</span>
               </a>
               <div class="delphi-dodona-pair" aria-label="Dodona en Delphi">
                 <a class="tree-node dodona" href="https://dodona.be/nl/courses/2641/" target="_blank" rel="noopener">
@@ -252,7 +258,6 @@
               </div>
             </div>
           </div>
-
           <div class="tree-branch">
             <div class="branch-title">STEaM-projecten</div>
             <div class="tree-stack">
@@ -262,7 +267,7 @@
               </a>
               <a class="tree-node current" href="https://robbew.github.io/robothand/" target="_blank" rel="noopener" aria-current="page">
                 <strong>Robothand</strong>
-                <span>Arduino, sensoren, servo's en beweging.</span>
+                <span>Arduino, sensoren, servo&#x27;s en beweging.</span>
               </a>
               <a class="tree-node" href="https://robbew.github.io/projectwind/" target="_blank" rel="noopener">
                 <strong>Wind</strong>
@@ -283,11 +288,8 @@
             </div>
           </div>
         </div>
-
-        <div class="logic-note">
-          De platformen trainen computationeel denken. De projecten laten leerlingen dat denken inzetten in een vakoverschrijdende opdracht.
-        </div>
       </div>
+      <!-- /generated:tree -->
     </section>
 
     <section class="section" id="klas">
@@ -349,7 +351,7 @@
         <details class="feature-card privacy-license-details">
           <summary>Licentie</summary>
           <div class="privacy-license-content">
-            <p class="card-copy">Het oorspronkelijke projectmateriaal van Robbe Wulgaert mag gratis worden gebruikt, gekopieerd en aangepast voor onderwijs, op voorwaarde dat “Robbe Wulgaert – AI in de Klas” duidelijk zichtbaar wordt vermeld, bij voorkeur met een link naar het oorspronkelijke project. Commerciële verkoop, betaalde verspreiding, sublicentiëring of herverpakking als commercieel product is niet toegestaan zonder voorafgaande schriftelijke toestemming. Componenten van derden blijven onder hun eigen licenties vallen.</p>
+            <p class="card-copy">Het oorspronkelijke projectmateriaal van Robbe Wulgaert mag gratis worden gebruikt, gekopieerd en aangepast voor onderwijs, op voorwaarde dat “Robbe Wulgaert – AI in de Klas” duidelijk zichtbaar wordt vermeld, waar redelijkerwijs mogelijk met een link naar het oorspronkelijke project. Commerciële verkoop, betaalde verspreiding, sublicentiëring of herverpakking als commercieel product is niet toegestaan zonder voorafgaande schriftelijke toestemming. Voor ander gebruik buiten onderwijs is ook voorafgaande schriftelijke toestemming nodig. Componenten van derden blijven onder hun eigen licenties vallen.</p>
             <p class="card-copy"><a href="LICENSE.md">Lees de volledige licentievoorwaarden.</a></p>
           </div>
         </details>
@@ -439,11 +441,55 @@
 (() => {
   const LANGUAGE_KEY = "aiindeklas:index-language";
   const TRANSLATIONS = {
+  "Belangrijke acties": "Key actions",
+  "Hoe werkt het?": "How does it work?",
+  "Start": "Get started",
+  "Footerlinks": "Footer links",
+  "Navigatie openen": "Open navigation",
+  "Projectopstelling": "Project setup",
+  "PDF-export": "PDF export",
+  "Formularium": "Reference sheet",
+  "De opstelling": "The setup",
+  "Robothand projectopstelling met mechanische hand": "Robotic hand project setup with a mechanical hand",
+  "Volgende stap": "Next step",
+  // generated:translations
+  "Plaats in de leerlijn": "Place in the learning path",
+  "Van platformen naar projecten.": "From platforms to projects.",
+  "De platformen bouwen het computationeel denken op. De projecten gebruiken dat denken in een vakoverschrijdende opdracht waarin leerlingen bouwen, meten, testen en besluiten.": "The platforms build computational thinking. The projects use that thinking in a cross-curricular assignment in which students build, measure, test and conclude.",
+  "Leerlijn van platformen en projecten": "Learning path of platforms and projects",
+  "Leren computationeel denken": "Learning computational thinking",
+  "van blokken naar code, van code naar onderzoek": "from blocks to code, from code to research",
+  "Blockly": "Blockly",
+  "visueel denken in stappen.": "visual step-by-step thinking.",
+  "JavaScript": "JavaScript",
+  "logica in echte code.": "logic in real code.",
+  "HTML": "HTML",
+  "webpagina's structureren.": "structuring webpages.",
+  "Dodona": "Dodona",
+  "Python in de Klas met opvolging.": "Python in the Classroom with tracking.",
+  "Delphi": "Delphi",
+  "Python oefenen in de browser.": "Practice Python in the browser.",
+  "Smart Plants": "Smart Plants",
+  "Arduino, bodemvochtigheid, kalibratie en data.": "Arduino, soil moisture, calibration and data.",
+  "Robothand": "Robotic hand",
+  "Arduino, sensoren, servo's en beweging.": "Arduino, sensors, servos and movement.",
+  "Wind": "Wind",
+  "Micro:bit, energie, spanning en stroom.": "Micro:bit, energy, voltage and current.",
+  "Slimme vuilnisbak": "Smart bin",
+  "AI, beeldherkenning, data en microcontrollers.": "AI, image recognition, data and microcontrollers.",
+  "Zelflerende games": "Self-learning games",
+  "Aan de slag met machine learning": "Getting started with machine learning",
+  "Fijnstof": "Particulate matter",
+  "Arduino, luchtkwaliteit, data en postersessie.": "Arduino, air quality, data and poster session.",
+  "Platformen": "Platforms",
+  "STEaM-projecten": "STEaM projects",
+  "Dodona en Delphi": "Dodona and Delphi",
+  // /generated:translations
   "Privacy en licentie": "Privacy and licence",
   "Dit project gebruikt geen eigen analytics of advertentiecookies. Invoer, voortgang en sensorgegevens worden in de browser verwerkt en kunnen lokaal op het toestel worden bewaard. Een download of export gebeurt alleen wanneer de gebruiker die zelf start. Toegang tot aangesloten hardware gebeurt alleen na toestemming in de browser. GitHub Pages registreert het IP-adres van bezoekers voor beveiligingsdoeleinden; externe diensten vallen onder het privacybeleid van hun aanbieder.": "This project does not use its own analytics or advertising cookies. Input, progress and sensor data are processed in the browser and may be stored locally on the device. A download or export occurs only when the user initiates it. Connected hardware is accessed only after permission is given in the browser. GitHub Pages logs visitors’ IP addresses for security purposes; external services are governed by their provider’s privacy policy.",
   "Lees hoe GitHub Pages technische bezoekgegevens verwerkt.": "Read how GitHub Pages processes technical visitor data.",
   "Educatief gebruik met naamsvermelding": "Educational use with attribution",
-  "Het oorspronkelijke projectmateriaal van Robbe Wulgaert mag gratis worden gebruikt, gekopieerd en aangepast voor onderwijs, op voorwaarde dat “Robbe Wulgaert – AI in de Klas” duidelijk zichtbaar wordt vermeld, bij voorkeur met een link naar het oorspronkelijke project. Commerciële verkoop, betaalde verspreiding, sublicentiëring of herverpakking als commercieel product is niet toegestaan zonder voorafgaande schriftelijke toestemming. Componenten van derden blijven onder hun eigen licenties vallen.": "Original project material by Robbe Wulgaert may be used, copied and adapted free of charge for education, provided that ‘Robbe Wulgaert – AI in de Klas’ is clearly displayed, preferably with a link to the original project. Commercial sale, paid distribution, sublicensing or repackaging as a commercial product is not permitted without prior written permission. Third-party components remain subject to their own licences.",
+  "Het oorspronkelijke projectmateriaal van Robbe Wulgaert mag gratis worden gebruikt, gekopieerd en aangepast voor onderwijs, op voorwaarde dat “Robbe Wulgaert – AI in de Klas” duidelijk zichtbaar wordt vermeld, waar redelijkerwijs mogelijk met een link naar het oorspronkelijke project. Commerciële verkoop, betaalde verspreiding, sublicentiëring of herverpakking als commercieel product is niet toegestaan zonder voorafgaande schriftelijke toestemming. Voor ander gebruik buiten onderwijs is ook voorafgaande schriftelijke toestemming nodig. Componenten van derden blijven onder hun eigen licenties vallen.": "Original project material by Robbe Wulgaert may be used, copied and adapted free of charge for education, provided that ‘Robbe Wulgaert – AI in de Klas’ is clearly displayed, where reasonably practical with a link to the original project. Commercial sale, paid distribution, sublicensing or repackaging as a commercial product is not permitted without prior written permission. Other uses outside education also require prior written permission. Third-party components remain subject to their own licences.",
   "Lees de volledige licentievoorwaarden.": "Read the full licence terms.",
   "© 2026 Robbe Wulgaert. Educatief gebruik met naamsvermelding; geen commerciële verspreiding.": "© 2026 Robbe Wulgaert. Educational use with attribution; no commercial distribution.",
   "Spring naar inhoud": "Skip to content",
@@ -478,37 +524,7 @@
   "Onderzoeksplatform": "Research platform",
   "Oefeningmaker": "Exercise builder",
   "Open oefeningmaker": "Open exercise builder",
-  "Plaats in de leerlijn": "Place in the learning path",
-  "Van platformen naar projecten.": "From platforms to projects.",
-  "De platformen bouwen het computationeel denken op. De projecten gebruiken dat denken in een vakoverschrijdende opdracht waarin leerlingen bouwen, meten, testen en besluiten.": "The platforms build computational thinking. The projects use that thinking in a cross-curricular assignment in which students build, measure, test and conclude.",
-  "Leren computationeel denken": "Learning computational thinking",
-  "van blokken naar code, van code naar onderzoek": "from blocks to code, from code to research",
-  "Platformen": "Platforms",
-  "STEaM-projecten": "STEaM projects",
-  "Blockly": "Blockly",
-  "JavaScript": "JavaScript",
-  "HTML": "HTML",
-  "Dodona": "Dodona",
-  "Delphi": "Delphi",
-  "Smart Plants": "Smart Plants",
-  "Robothand": "Robotic hand",
-  "Wind": "Wind",
-  "Slimme vuilnisbak": "Smart bin",
   "Slimme Vuilnisbak": "Smart Bin",
-  "Zelflerende games": "Self-learning games",
-  "Aan de slag met machine learning": "Getting started with machine learning",
-  "Fijnstof": "Particulate matter",
-  "visueel denken in stappen.": "visual step-by-step thinking.",
-  "logica in echte code.": "logic in real code.",
-  "webpagina's structureren.": "structuring webpages.",
-  "Python in de Klas met opvolging.": "Python in the Classroom with tracking.",
-  "Python oefenen in de browser.": "Practice Python in the browser.",
-  "Arduino, bodemvochtigheid, kalibratie en data.": "Arduino, soil moisture, calibration and data.",
-  "Arduino, sensoren, servo's en beweging.": "Arduino, sensors, servos and movement.",
-  "Micro:bit, energie, spanning en stroom.": "Micro:bit, energy, voltage and current.",
-  "AI, beeldherkenning, data en microcontrollers.": "AI, image recognition, data and microcontrollers.",
-  "Arduino, luchtkwaliteit, data en postersessie.": "Arduino, air quality, data and poster session.",
-  "De platformen trainen computationeel denken. De projecten laten leerlingen dat denken inzetten in een vakoverschrijdende opdracht.": "The platforms train computational thinking. The projects let students apply that thinking in a cross-curricular assignment.",
   "Geen installatie of leerlingenaccount.": "No installation or student account.",
   "Lokale bibliotheken voor grafieken en PDF-export.": "Local libraries for charts and PDF export.",
   "Geschikt voor GitHub Pages.": "Suitable for GitHub Pages.",
@@ -625,20 +641,13 @@
     document.querySelectorAll("[data-language-choice]").forEach((button) => {
       const isActive = button.dataset.languageChoice === (useEnglish ? "en" : "nl");
       button.classList.toggle("is-active", isActive);
-      button.setAttribute("aria-pressed", String(isActive));
+      if (isActive) button.setAttribute("aria-current", "page"); else button.removeAttribute("aria-current");
     });
     try { localStorage.setItem(LANGUAGE_KEY, useEnglish ? "en" : "nl"); } catch (error) {}
   }
   function initLanguageToggle() {
-    document.querySelectorAll("[data-language-choice]").forEach((button) => {
-      button.addEventListener("click", () => setLanguage(button.dataset.languageChoice));
-    });
-    let saved = "nl";
-    try {
-      const requested = new URLSearchParams(window.location.search).get("lang");
-      saved = requested || localStorage.getItem(LANGUAGE_KEY) || "nl";
-    } catch (error) {}
-    setLanguage(saved === "en" ? "en" : "nl");
+    try { localStorage.setItem(LANGUAGE_KEY, "nl"); } catch (error) {}
+    document.dispatchEvent(new CustomEvent("landing:language-ready"));
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initLanguageToggle);
   else initLanguageToggle();

@@ -1,0 +1,652 @@
+<!doctype html>
+<!--
+  Project Robothand
+  Copyright (c) 2026 Robbe Wulgaert
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Robbe Wulgaert, AI in de Klas, robbewulgaert.be" />
+  <meta name="copyright" content="Copyright (c) 2026 Robbe Wulgaert" />
+  <!-- generated:favicon -->
+  <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=ff7968036640">
+  <link rel="shortcut icon" type="image/png" sizes="64x64" href="./favicon.png?v=ff7968036640">
+  <!-- /generated:favicon -->
+<link rel="stylesheet" href="style.css" />
+  <style>@media (max-width: 980px) { .split { grid-template-columns: minmax(0, 1fr); } .cta-band > div { min-width: 0; } h1, h2 { overflow-wrap: anywhere; } }</style>
+  <style id="language-toggle-styles">
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(82, 0, 255, 0.22);
+  border-radius: 999px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 10px 24px rgba(82, 0, 255, 0.08);
+}
+.language-toggle a {
+  min-width: 44px;
+  min-height: 36px;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--muted, var(--delphi-muted, #625b70));
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.language-toggle a.is-active {
+  background: var(--brand, var(--brand-purple, var(--delphi-blue, #5200FF)));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(82, 0, 255, 0.20);
+}
+.language-toggle a:focus-visible {
+  outline: 3px solid rgba(61, 255, 208, 0.75);
+  outline-offset: 2px;
+}
+</style>
+<!-- generated:seo-head -->
+<title>Robotic Hand Project</title>
+<meta name="description" content="The Robotic Hand Project has students build a sensor glove that controls a robotic hand through Arduino and servo motors.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://robbew.github.io/robothand/en.html">
+<link rel="alternate" hreflang="nl-BE" href="https://robbew.github.io/robothand/">
+<link rel="alternate" hreflang="en" href="https://robbew.github.io/robothand/en.html">
+<link rel="alternate" hreflang="x-default" href="https://robbew.github.io/robothand/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Robotic Hand Project">
+<meta property="og:description" content="The Robotic Hand Project has students build a sensor glove that controls a robotic hand through Arduino and servo motors.">
+<meta property="og:url" content="https://robbew.github.io/robothand/en.html">
+<meta property="og:image" content="https://robbew.github.io/robothand/media/landing_page_photo.jpg">
+<meta property="og:image:alt" content="Robotic Hand Project — learning project">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Robotic Hand Project">
+<meta name="twitter:description" content="The Robotic Hand Project has students build a sensor glove that controls a robotic hand through Arduino and servo motors.">
+<meta name="twitter:image" content="https://robbew.github.io/robothand/media/landing_page_photo.jpg">
+<meta name="twitter:image:alt" content="Robotic Hand Project — learning project">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://robbew.github.io/robothand/en.html#webpage","url":"https://robbew.github.io/robothand/en.html","name":"Robotic Hand Project","description":"The Robotic Hand Project has students build a sensor glove that controls a robotic hand through Arduino and servo motors.","inLanguage":"en","about":{"@id":"https://robbew.github.io/robothand/#resource"},"mainEntity":{"@id":"https://robbew.github.io/robothand/#resource"}},{"@type":"Person","@id":"https://robbew.github.io/aiindeklas/#robbe-wulgaert","name":"Robbe Wulgaert","url":"https://robbew.github.io/aiindeklas/"},{"@type":["CreativeWork","LearningResource"],"@id":"https://robbew.github.io/robothand/#resource","name":"Robotic Hand Project","description":"The Robotic Hand Project has students build a sensor glove that controls a robotic hand through Arduino and servo motors.","url":"https://robbew.github.io/robothand/","creator":{"@id":"https://robbew.github.io/aiindeklas/#robbe-wulgaert"},"license":"https://robbew.github.io/robothand/LICENSE.md","inLanguage":"en","teaches":["Processing sensor readings","Controlling actuators and testing gestures"],"abstract":"Setup: Flex sensors, Arduino and five servos; Calibration: Sensor values mapped to finger positions; Display: Live measurements in the browser"}]}</script>
+<!-- /generated:seo-head -->
+<style id="seo-facts-styles">.seo-facts dl { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; } .seo-facts dl > div { min-width: 10rem; } .seo-facts dt { font-weight: 700; } .seo-facts dd { margin: 0; } .language-toggle a { text-decoration: none; }</style>
+</head>
+<body class="landing-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks" aria-haspopup="true">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+      <a class="brand-link" href="#top" aria-label="Project Robotic Hand">
+        <span class="brand-copy">
+          <span class="brand-title">Project Robotic Hand</span>
+          <span class="brand-subtitle">AI in de Klas · Robbe Wulgaert</span>
+        </span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <div class="nav-bookmarks">
+          <a href="#werking">Assignment</a>
+          <a href="#leerlijn">Learning path</a>
+          <a href="#klas">Teachers</a>
+        </div>
+        <div class="nav-actions">
+          <div class="language-toggle" role="group" aria-label="Language selection">
+            <a href="./" data-language-choice="nl">NL</a>
+            <a href="en.html" data-language-choice="en" class="is-active" aria-current="page">ENG</a>
+          </div>
+          <a class="btn btn-secondary" href="evaluatie.html">Evaluation</a>
+          <a class="btn btn-primary" href="platform.html">Start platform</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="landing-hero" id="top" aria-label="Project Robotic Hand">
+      <div class="hero-content">
+        <p class="section-kicker">Project Robotic Hand</p>
+        <h1>Build and control your robotic hand!</h1>
+        <p class="hero-lead">The Robotic Hand Project has students build a sensor glove that controls a robotic hand through Arduino and servo motors.</p>
+        <div class="hero-actions" aria-label="Key actions">
+          <a class="btn btn-primary" href="platform.html">Start platform</a>
+          <a class="btn btn-secondary" href="#werking">View the assignment</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section landing-intro" id="werking">
+      <p class="section-kicker">How does it work?</p>
+      <h2 class="section-title">From finger bending to robotic movement.</h2>
+      <p class="section-lead">
+        Students build a simple sensor glove and connect it to a robotic hand. The Arduino reads finger movements, controls servomotors and makes visible how data can cause a physical movement.
+      </p>
+
+      <div class="steps">
+        <article class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="card-title">Build</h3>
+          <p class="card-copy">
+            Students make a glove with sensors and connect it to an Arduino and five servos.
+          </p>
+        </article>
+        <article class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="card-title">Calibrate</h3>
+          <p class="card-copy">
+            Raw sensor values are converted into usable finger positions: from straight to bent.
+          </p>
+        </article>
+        <article class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="card-title">Control</h3>
+          <p class="card-copy">
+            The Arduino translates measurements into servo angles so the robotic hand follows the human hand.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section media-section" aria-label="Project setup">
+      <div class="split">
+        <article class="audience-card">
+          <p class="section-kicker">The setup</p>
+          <h2 class="section-title">From glove to robotic hand.</h2>
+          <p class="section-lead">
+            A finger bends, the sensor value changes and the Arduino controls a servo. This lets students immediately see whether their code, wiring and mechanics work together.
+          </p>
+          <ul class="bullet-list">
+            <li>Flex sensors measure how much fingers bend.</li>
+            <li>Arduino processes the measurements and controls servomotors.</li>
+            <li>The browser shows live what the Arduino sends.</li>
+          </ul>
+        </article>
+
+        <figure class="photo-frame">
+          <img src="media/landing_page_photo.jpg" alt="Robotic hand project setup with a mechanical hand" />
+          <figcaption>Project photo of the robotic hand as a physical research object.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="leren">
+      <p class="section-kicker">What will you learn?</p>
+      <h2 class="section-title">What do students practise in this project?</h2>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">01</div>
+          <h3 class="card-title">Reading sensors</h3>
+          <p class="card-copy">
+            They read finger values and check whether those values match what they see.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">02</div>
+          <h3 class="card-title">Controlling actuators</h3>
+          <p class="card-copy">
+            They control servos and immediately see what a small change in the code does.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">03</div>
+          <h3 class="card-title">Processing data</h3>
+          <p class="card-copy">
+            They follow the values per finger and use them to adjust the setup.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">04</div>
+          <h3 class="card-title">Recognising patterns</h3>
+          <p class="card-copy">
+            They test whether the robotic hand recognises simple gestures such as paper, rock and scissors.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section curriculum-section" id="leerlijn">
+      <!-- generated:seo-facts -->
+<section class="seo-facts" aria-label="Project facts"><dl><div><dt>Setup</dt><dd>Flex sensors, Arduino and five servos</dd></div><div><dt>Calibration</dt><dd>Sensor values mapped to finger positions</dd></div><div><dt>Display</dt><dd>Live measurements in the browser</dd></div></dl></section>
+<!-- /generated:seo-facts -->
+      <!-- generated:heading -->
+      <p class="section-kicker">Place in the learning path</p>
+      <h2 class="section-title">From platforms to projects.</h2>
+      <p class="section-lead">The platforms build computational thinking. The projects use that thinking in a cross-curricular assignment in which students build, measure, test and conclude.</p>
+      <!-- /generated:heading -->
+
+      <!-- generated:tree -->
+      <div class="family-tree" aria-label="Learning path of platforms and projects">
+        <div class="tree-root">
+          <a class="tree-node root" href="https://www.aiindeklas.be" target="_blank" rel="noopener">
+            <strong>Learning computational thinking</strong>
+            <span>from blocks to code, from code to research</span>
+          </a>
+        </div>
+        <div class="tree-branches">
+          <div class="tree-branch">
+            <div class="branch-title">Platforms</div>
+            <div class="tree-stack">
+              <a class="tree-node" href="https://robbew.github.io/Blockly/" target="_blank" rel="noopener">
+                <strong>Blockly</strong>
+                <span>visual step-by-step thinking.</span>
+              </a>
+              <a class="tree-node" href="https://robbew.github.io/jsindeklas/" target="_blank" rel="noopener">
+                <strong>JavaScript</strong>
+                <span>logic in real code.</span>
+              </a>
+              <a class="tree-node" href="https://robbew.github.io/htmlindeklas/" target="_blank" rel="noopener">
+                <strong>HTML</strong>
+                <span>structuring webpages.</span>
+              </a>
+              <div class="delphi-dodona-pair" aria-label="Dodona and Delphi">
+                <a class="tree-node dodona" href="https://dodona.be/nl/courses/2641/" target="_blank" rel="noopener">
+                  <strong>Dodona</strong>
+                  <span>Python in the Classroom with tracking.</span>
+                </a>
+                <a class="tree-node" href="https://robbew.github.io/delphi/" target="_blank" rel="noopener">
+                  <strong>Delphi</strong>
+                  <span>Practice Python in the browser.</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="tree-branch">
+            <div class="branch-title">STEaM projects</div>
+            <div class="tree-stack">
+              <a class="tree-node" href="https://robbew.github.io/smartplants/" target="_blank" rel="noopener">
+                <strong>Smart Plants</strong>
+                <span>Arduino, soil moisture, calibration and data.</span>
+              </a>
+              <a class="tree-node current" href="https://robbew.github.io/robothand/" target="_blank" rel="noopener" aria-current="page">
+                <strong>Robotic hand</strong>
+                <span>Arduino, sensors, servos and movement.</span>
+              </a>
+              <a class="tree-node" href="https://robbew.github.io/projectwind/" target="_blank" rel="noopener">
+                <strong>Wind</strong>
+                <span>Micro:bit, energy, voltage and current.</span>
+              </a>
+              <a class="tree-node" href="https://robbew.github.io/slimme_vuilnisbak/" target="_blank" rel="noopener">
+                <strong>Smart bin</strong>
+                <span>AI, image recognition, data and microcontrollers.</span>
+              </a>
+              <a class="tree-node" href="https://robbew.github.io/aiindeklas/zelflerende-games/" target="_blank" rel="noopener">
+                <strong>Self-learning games</strong>
+                <span>Getting started with machine learning</span>
+              </a>
+              <a class="tree-node" href="https://robbew.github.io/projectfijnstof/" target="_blank" rel="noopener">
+                <strong>Particulate matter</strong>
+                <span>Arduino, air quality, data and poster session.</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /generated:tree -->
+    </section>
+
+    <section class="section" id="klas">
+      <article class="audience-card">
+        <p class="section-kicker">For teachers</p>
+        <h2 class="section-title">A synthesis project after Arduino.</h2>
+        <p class="section-lead">
+          This project belongs at the end of a pathway in which students have already worked with Arduino. They bring prior knowledge together in a larger system: reading sensors, controlling servos, testing, adjusting and explaining why the robotic hand does or does not respond well.
+        </p>
+        <ul class="bullet-list">
+          <li>For students who already know Arduino, variables, pins and serial data.</li>
+          <li>Combines electronics, code and mechanics in one working whole.</li>
+          <li>Provides meaningful test questions: which sensor position works reliably, how quickly does the servo respond, which gesture is recognised?</li>
+          <li>Works well in pairs or small groups, with one robotic hand as a class setup.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="benodigdheden">
+      <p class="section-kicker">Materials</p>
+      <h2 class="section-title">What do you need in class?</h2>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">01</div>
+          <h3 class="card-title">Arduino</h3>
+          <p class="card-copy">An Arduino UNO or similar board that connects to the computer by USB.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">02</div>
+          <h3 class="card-title">Sensor glove</h3>
+          <p class="card-copy">Flex sensors or similar sensors to make finger bending measurable.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">03</div>
+          <h3 class="card-title">Servomotors</h3>
+          <p class="card-copy">Five servos that can move the fingers of the robotic hand.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">04</div>
+          <h3 class="card-title">Browser</h3>
+          <p class="card-copy">Chrome or Edge for WebSerial. Without hardware, the demo mode can be used.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="privacy-license">
+      <h2 class="section-title">Privacy and licence</h2>
+      <div class="privacy-license-list">
+        <details class="feature-card privacy-license-details">
+          <summary>Privacy</summary>
+          <div class="privacy-license-content">
+            <p class="card-copy">This project does not use its own analytics or advertising cookies. Input, progress and sensor data are processed in the browser and may be stored locally on the device. A download or export occurs only when the user initiates it. Connected hardware is accessed only after permission is given in the browser. GitHub Pages logs visitors’ IP addresses for security purposes; external services are governed by their provider’s privacy policy.</p>
+            <p class="card-copy"><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection">Read how GitHub Pages processes technical visitor data.</a></p>
+          </div>
+        </details>
+        <details class="feature-card privacy-license-details">
+          <summary>License</summary>
+          <div class="privacy-license-content">
+            <p class="card-copy">Original project material by Robbe Wulgaert may be used, copied and adapted free of charge for education, provided that ‘Robbe Wulgaert – AI in de Klas’ is clearly displayed, where reasonably practical with a link to the original project. Commercial sale, paid distribution, sublicensing or repackaging as a commercial product is not permitted without prior written permission. Other uses outside education also require prior written permission. Third-party components remain subject to their own licences.</p>
+            <p class="card-copy"><a href="LICENSE.md">Read the full licence terms.</a></p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Next step">
+      <div class="cta-band">
+        <div>
+          <h2>Open the robotic hand platform.</h2>
+          <p>
+            Connect the Arduino, test the demo mode or use the visualisation to discuss sensor values and movement.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="platform.html">Start platform</a>
+          <a class="btn btn-secondary" href="#klas">For teachers</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-title">Project Robotic Hand</div>
+        <p>
+          Author: Robbe Wulgaert · AI in de Klas · robbewulgaert.be<br />
+          © 2026 Robbe Wulgaert. Educational use with attribution; no commercial distribution.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#privacy-license">Privacy and licence</a>
+        <a href="https://www.robbewulgaert.be">robbewulgaert.be</a>
+        <a href="https://www.aiindeklas.be">AI in de Klas</a>
+        <a href="platform.html">Platform</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    if (menuButton && navLinks) {
+      const setMenuState = (isOpen, restoreFocus = false, focusFirstLink = false) => {
+        navLinks.classList.toggle("is-open", isOpen);
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+        const isEnglish = document.documentElement.lang.startsWith("en");
+        menuButton.setAttribute("aria-label", isOpen
+          ? (isEnglish ? "Close navigation menu" : "Navigatiemenu sluiten")
+          : (isEnglish ? "Open navigation menu" : "Navigatiemenu openen"));
+        if (isOpen && focusFirstLink) navLinks.querySelector("a")?.focus();
+        if (!isOpen && restoreFocus) menuButton.focus();
+      };
+
+      menuButton.addEventListener("click", () => {
+        const isOpening = menuButton.getAttribute("aria-expanded") !== "true";
+        setMenuState(isOpening, false, true);
+      });
+
+      navLinks.addEventListener("click", (event) => {
+        if (event.target instanceof HTMLAnchorElement) setMenuState(false);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (menuButton.getAttribute("aria-expanded") === "true"
+          && !navLinks.contains(event.target)
+          && !menuButton.contains(event.target)) {
+          setMenuState(false);
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+          setMenuState(false, true);
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.matchMedia("(min-width: 761px)").matches) setMenuState(false);
+      });
+    }
+  </script>
+<script id="language-toggle-script">
+(() => {
+  const LANGUAGE_KEY = "aiindeklas:index-language";
+  const TRANSLATIONS = {
+  "Belangrijke acties": "Key actions",
+  "Hoe werkt het?": "How does it work?",
+  "Start": "Get started",
+  "Footerlinks": "Footer links",
+  "Navigatie openen": "Open navigation",
+  "Projectopstelling": "Project setup",
+  "PDF-export": "PDF export",
+  "Formularium": "Reference sheet",
+  "De opstelling": "The setup",
+  "Robothand projectopstelling met mechanische hand": "Robotic hand project setup with a mechanical hand",
+  "Volgende stap": "Next step",
+  // generated:translations
+  "Plaats in de leerlijn": "Place in the learning path",
+  "Van platformen naar projecten.": "From platforms to projects.",
+  "De platformen bouwen het computationeel denken op. De projecten gebruiken dat denken in een vakoverschrijdende opdracht waarin leerlingen bouwen, meten, testen en besluiten.": "The platforms build computational thinking. The projects use that thinking in a cross-curricular assignment in which students build, measure, test and conclude.",
+  "Leerlijn van platformen en projecten": "Learning path of platforms and projects",
+  "Leren computationeel denken": "Learning computational thinking",
+  "van blokken naar code, van code naar onderzoek": "from blocks to code, from code to research",
+  "Blockly": "Blockly",
+  "visueel denken in stappen.": "visual step-by-step thinking.",
+  "JavaScript": "JavaScript",
+  "logica in echte code.": "logic in real code.",
+  "HTML": "HTML",
+  "webpagina's structureren.": "structuring webpages.",
+  "Dodona": "Dodona",
+  "Python in de Klas met opvolging.": "Python in the Classroom with tracking.",
+  "Delphi": "Delphi",
+  "Python oefenen in de browser.": "Practice Python in the browser.",
+  "Smart Plants": "Smart Plants",
+  "Arduino, bodemvochtigheid, kalibratie en data.": "Arduino, soil moisture, calibration and data.",
+  "Robothand": "Robotic hand",
+  "Arduino, sensoren, servo's en beweging.": "Arduino, sensors, servos and movement.",
+  "Wind": "Wind",
+  "Micro:bit, energie, spanning en stroom.": "Micro:bit, energy, voltage and current.",
+  "Slimme vuilnisbak": "Smart bin",
+  "AI, beeldherkenning, data en microcontrollers.": "AI, image recognition, data and microcontrollers.",
+  "Zelflerende games": "Self-learning games",
+  "Aan de slag met machine learning": "Getting started with machine learning",
+  "Fijnstof": "Particulate matter",
+  "Arduino, luchtkwaliteit, data en postersessie.": "Arduino, air quality, data and poster session.",
+  "Platformen": "Platforms",
+  "STEaM-projecten": "STEaM projects",
+  "Dodona en Delphi": "Dodona and Delphi",
+  // /generated:translations
+  "Privacy en licentie": "Privacy and licence",
+  "Dit project gebruikt geen eigen analytics of advertentiecookies. Invoer, voortgang en sensorgegevens worden in de browser verwerkt en kunnen lokaal op het toestel worden bewaard. Een download of export gebeurt alleen wanneer de gebruiker die zelf start. Toegang tot aangesloten hardware gebeurt alleen na toestemming in de browser. GitHub Pages registreert het IP-adres van bezoekers voor beveiligingsdoeleinden; externe diensten vallen onder het privacybeleid van hun aanbieder.": "This project does not use its own analytics or advertising cookies. Input, progress and sensor data are processed in the browser and may be stored locally on the device. A download or export occurs only when the user initiates it. Connected hardware is accessed only after permission is given in the browser. GitHub Pages logs visitors’ IP addresses for security purposes; external services are governed by their provider’s privacy policy.",
+  "Lees hoe GitHub Pages technische bezoekgegevens verwerkt.": "Read how GitHub Pages processes technical visitor data.",
+  "Educatief gebruik met naamsvermelding": "Educational use with attribution",
+  "Het oorspronkelijke projectmateriaal van Robbe Wulgaert mag gratis worden gebruikt, gekopieerd en aangepast voor onderwijs, op voorwaarde dat “Robbe Wulgaert – AI in de Klas” duidelijk zichtbaar wordt vermeld, waar redelijkerwijs mogelijk met een link naar het oorspronkelijke project. Commerciële verkoop, betaalde verspreiding, sublicentiëring of herverpakking als commercieel product is niet toegestaan zonder voorafgaande schriftelijke toestemming. Voor ander gebruik buiten onderwijs is ook voorafgaande schriftelijke toestemming nodig. Componenten van derden blijven onder hun eigen licenties vallen.": "Original project material by Robbe Wulgaert may be used, copied and adapted free of charge for education, provided that ‘Robbe Wulgaert – AI in de Klas’ is clearly displayed, where reasonably practical with a link to the original project. Commercial sale, paid distribution, sublicensing or repackaging as a commercial product is not permitted without prior written permission. Other uses outside education also require prior written permission. Third-party components remain subject to their own licences.",
+  "Lees de volledige licentievoorwaarden.": "Read the full licence terms.",
+  "© 2026 Robbe Wulgaert. Educatief gebruik met naamsvermelding; geen commerciële verspreiding.": "© 2026 Robbe Wulgaert. Educational use with attribution; no commercial distribution.",
+  "Spring naar inhoud": "Skip to content",
+  "Spring naar hoofdinhoud": "Skip to main content",
+  "Hoofdnavigatie": "Main navigation",
+  "Paginaonderdelen": "Page sections",
+  "Taalkeuze": "Language selection",
+  "Navigatiemenu openen": "Open navigation menu",
+  "Navigatiemenu sluiten": "Close navigation menu",
+  "Evaluatie": "Evaluation",
+  "Opdracht": "Assignment",
+  "Werking": "How it works",
+  "Wat leer je?": "What will you learn?",
+  "Onderdelen": "Components",
+  "Familie": "Family",
+  "Voor leerkrachten": "For teachers",
+  "Leerkrachten": "Teachers",
+  "Leerlijn": "Learning path",
+  "Benodigdheden": "Materials",
+  "Privacy": "Privacy",
+  "Opstelling": "Setup",
+  "Gebruik": "Use",
+  "README": "README",
+  "Platform": "Platform",
+  "Pythia": "Pythia",
+  "Start leerplatform": "Start learning platform",
+  "Start platform": "Start platform",
+  "Menu": "Menu",
+  "Bekijk de opdracht": "View the assignment",
+  "Lees README": "Read README",
+  "Leerplatform": "Learning platform",
+  "Onderzoeksplatform": "Research platform",
+  "Oefeningmaker": "Exercise builder",
+  "Open oefeningmaker": "Open exercise builder",
+  "Slimme Vuilnisbak": "Smart Bin",
+  "Geen installatie of leerlingenaccount.": "No installation or student account.",
+  "Lokale bibliotheken voor grafieken en PDF-export.": "Local libraries for charts and PDF export.",
+  "Geschikt voor GitHub Pages.": "Suitable for GitHub Pages.",
+  "robbewulgaert.be": "robbewulgaert.be",
+  "AI in de Klas": "AI in de Klas",
+  "Auteur: Robbe Wulgaert · AI in de Klas · robbewulgaert.be": "Author: Robbe Wulgaert · AI in de Klas · robbewulgaert.be",
+  "Auteur: Robbe Wulgaert · AI in de Klas · robbewulgaert.be · © 2026 Robbe Wulgaert.": "Author: Robbe Wulgaert · AI in de Klas · robbewulgaert.be · © 2026 Robbe Wulgaert.",
+  "Robbe Wulgaert, AI in de Klas, robbewulgaert.be": "Robbe Wulgaert, AI in de Klas, robbewulgaert.be",
+  "Licentie": "License",
+  "Third-party notices": "Third-party notices",
+  "Contact": "Contact",
+  "Project Robothand": "Project Robotic Hand",
+  "Bouw en bestuur jouw robothand!": "Build and control your robotic hand!",
+  "Leerlingen bouwen een sensorhandschoen, sturen servomotoren aan met Arduino en ontdekken hoe beweging wordt omgezet naar data, code en mechanische actie.": "Students build a sensor glove, control servomotors with Arduino and discover how movement is converted into data, code and mechanical action.",
+  "Van vingerbuiging naar robotbeweging.": "From finger bending to robotic movement.",
+  "Leerlingen bouwen een eenvoudige sensorhandschoen en koppelen die aan een robothand. De Arduino leest vingerbewegingen, stuurt servomotoren aan en maakt zichtbaar hoe data een fysieke beweging kan veroorzaken.": "Students build a simple sensor glove and connect it to a robotic hand. The Arduino reads finger movements, controls servomotors and makes visible how data can cause a physical movement.",
+  "Bouw": "Build",
+  "Leerlingen maken een handschoen met sensoren en koppelen die aan een Arduino en vijf servo's.": "Students make a glove with sensors and connect it to an Arduino and five servos.",
+  "Kalibreer": "Calibrate",
+  "Ruwe sensorwaarden worden omgezet naar bruikbare vingerposities: van gestrekt tot gebogen.": "Raw sensor values are converted into usable finger positions: from straight to bent.",
+  "Bestuur": "Control",
+  "De Arduino vertaalt metingen naar servohoeken, zodat de robothand de menselijke hand volgt.": "The Arduino translates measurements into servo angles so the robotic hand follows the human hand.",
+  "Van handschoen naar robothand.": "From glove to robotic hand.",
+  "Een vinger buigt, de sensorwaarde verandert en de Arduino stuurt een servo aan. Zo zien leerlingen meteen of hun code, bedrading en mechaniek goed samenwerken.": "A finger bends, the sensor value changes and the Arduino controls a servo. This lets students immediately see whether their code, wiring and mechanics work together.",
+  "Flexsensoren meten hoeveel vingers buigen.": "Flex sensors measure how much fingers bend.",
+  "Arduino verwerkt de metingen en stuurt servomotoren aan.": "Arduino processes the measurements and controls servomotors.",
+  "De browser toont live wat de Arduino doorstuurt.": "The browser shows live what the Arduino sends.",
+  "Projectfoto van de robothand als fysiek onderzoeksobject.": "Project photo of the robotic hand as a physical research object.",
+  "Wat oefenen leerlingen in dit project?": "What do students practise in this project?",
+  "Sensoren lezen": "Reading sensors",
+  "Ze lezen vingerwaarden uit en controleren of die waarden kloppen met wat ze zien.": "They read finger values and check whether those values match what they see.",
+  "Actuatoren sturen": "Controlling actuators",
+  "Ze sturen servo's aan en zien meteen wat een kleine wijziging in de code doet.": "They control servos and immediately see what a small change in the code does.",
+  "Data verwerken": "Processing data",
+  "Ze volgen de waarden per vinger en gebruiken die om de opstelling bij te sturen.": "They follow the values per finger and use them to adjust the setup.",
+  "Patronen herkennen": "Recognising patterns",
+  "Ze testen of de robothand eenvoudige gebaren zoals blad, steen en schaar herkent.": "They test whether the robotic hand recognises simple gestures such as paper, rock and scissors.",
+  "Een syntheseproject na Arduino.": "A synthesis project after Arduino.",
+  "Dit project hoort aan het einde van een traject waarin leerlingen al met Arduino gewerkt hebben. Ze brengen hun voorkennis samen in een groter systeem: sensoren uitlezen, servo's aansturen, testen, bijsturen en uitleggen waarom de robothand wel of niet goed reageert.": "This project belongs at the end of a pathway in which students have already worked with Arduino. They bring prior knowledge together in a larger system: reading sensors, controlling servos, testing, adjusting and explaining why the robotic hand does or does not respond well.",
+  "Voor leerlingen die Arduino, variabelen, pinnen en seriele data al kennen.": "For students who already know Arduino, variables, pins and serial data.",
+  "Combineert elektronica, code en mechaniek in één werkend geheel.": "Combines electronics, code and mechanics in one working whole.",
+  "Geeft zinvolle testvragen: welke sensorpositie werkt betrouwbaar, hoe snel reageert de servo, welk gebaar wordt herkend?": "Provides meaningful test questions: which sensor position works reliably, how quickly does the servo respond, which gesture is recognised?",
+  "Werkt goed in duo's of kleine groepjes, met één robothand als klasopstelling.": "Works well in pairs or small groups, with one robotic hand as a class setup.",
+  "Wat heb je nodig in de klas?": "What do you need in class?",
+  "Een Arduino UNO of vergelijkbaar bord dat via USB met de computer verbindt.": "An Arduino UNO or similar board that connects to the computer by USB.",
+  "Sensorhandschoen": "Sensor glove",
+  "Flexsensoren of vergelijkbare sensoren om vingerbuiging meetbaar te maken.": "Flex sensors or similar sensors to make finger bending measurable.",
+  "Servomotoren": "Servomotors",
+  "Vijf servo's die de vingers van de robothand kunnen bewegen.": "Five servos that can move the fingers of the robotic hand.",
+  "Chrome of Edge voor WebSerial. Zonder hardware kan de demomodus gebruikt worden.": "Chrome or Edge for WebSerial. Without hardware, the demo mode can be used.",
+  "De webomgeving draait als gewone website. Data blijft lokaal in de browser en leerlingen werken zonder account.": "The web environment runs as a normal website. Data stays locally in the browser and students work without an account.",
+  "Open het robothandplatform.": "Open the robotic hand platform.",
+  "Verbind de Arduino, test de demomodus of gebruik de visualisatie om sensorwaarden en beweging te bespreken.": "Connect the Arduino, test the demo mode or use the visualisation to discuss sensor values and movement."
+};
+  const META = {
+  "title": "Project Robotic Hand",
+  "description": "Project Robotic Hand is a classroom project in which students use Arduino, sensors and servomotors to investigate how a robotic hand can imitate human movement."
+};
+  const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "INPUT", "SELECT", "OPTION"]);
+  const TEXT_NODES = [];
+  const ATTR_NODES = [];
+  let originalTitle = document.title;
+  let originalDescription = null;
+  const normalize = (value) => String(value || "").replace(/\s+/g, " ").trim();
+  function preserveOuterWhitespace(original, translated) {
+    const start = original.match(/^\s*/)?.[0] || "";
+    const end = original.match(/\s*$/)?.[0] || "";
+    return start + translated + end;
+  }
+  function collectTextNodes() {
+    if (TEXT_NODES.length) return;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || SKIP_TAGS.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return normalize(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      TEXT_NODES.push({ node, original: node.nodeValue, key: normalize(node.nodeValue) });
+    }
+  }
+  function collectAttributes() {
+    if (ATTR_NODES.length) return;
+    document.querySelectorAll("[aria-label], [alt], [title], [placeholder]").forEach((element) => {
+      ["aria-label", "alt", "title", "placeholder"].forEach((attr) => {
+        if (element.hasAttribute(attr)) {
+          const original = element.getAttribute(attr);
+          ATTR_NODES.push({ element, attr, original, key: normalize(original) });
+        }
+      });
+    });
+  }
+  function setLanguage(language) {
+    const useEnglish = language === "en";
+    collectTextNodes();
+    collectAttributes();
+    TEXT_NODES.forEach((entry) => {
+      const translated = TRANSLATIONS[entry.key];
+      entry.node.nodeValue = useEnglish && translated ? preserveOuterWhitespace(entry.original, translated) : entry.original;
+    });
+    ATTR_NODES.forEach((entry) => {
+      const translated = TRANSLATIONS[entry.key];
+      entry.element.setAttribute(entry.attr, useEnglish && translated ? translated : entry.original);
+    });
+    document.documentElement.lang = useEnglish ? "en" : "nl-BE";
+    document.title = useEnglish && META.title ? META.title : originalTitle;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) {
+      if (originalDescription === null) originalDescription = description.getAttribute("content") || "";
+      description.setAttribute("content", useEnglish && META.description ? META.description : originalDescription);
+    }
+    document.querySelectorAll("[data-language-choice]").forEach((button) => {
+      const isActive = button.dataset.languageChoice === (useEnglish ? "en" : "nl");
+      button.classList.toggle("is-active", isActive);
+      if (isActive) button.setAttribute("aria-current", "page"); else button.removeAttribute("aria-current");
+    });
+    try { localStorage.setItem(LANGUAGE_KEY, useEnglish ? "en" : "nl"); } catch (error) {}
+  }
+  function initLanguageToggle() {
+    try { localStorage.setItem(LANGUAGE_KEY, "en"); } catch (error) {}
+    document.dispatchEvent(new CustomEvent("landing:language-ready"));
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initLanguageToggle);
+  else initLanguageToggle();
+})();
+</script>
+</body>
+</html>
