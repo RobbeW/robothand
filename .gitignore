@@ -1,0 +1,11 @@
+# BEGIN AI IN DE KLAS LOCAL HARNESS
+/.harness/
+/HARNESS_START_HERE.md
+/AGENTS.md
+/brand_motion.md
+/.codex/config.toml
+/.codex/agents/explorer.toml
+/.codex/agents/builder.toml
+/.codex/agents/reviewer.toml
+/.venv/
+# END AI IN DE KLAS LOCAL HARNESS
